@@ -2,23 +2,10 @@
   "apiVersion": "dashboard.grafana.app/v2",
   "kind": "Dashboard",
   "metadata": {
-    "name": "Kczn-jPZz",
     "namespace": "org-2",
-    "uid": "D0VXGAO44zhbX9SIGdW0eN9OIne6OrxUbGn6CiSZd2oX",
     "resourceVersion": "1763489530000143",
     "generation": 27,
-    "creationTimestamp": "2025-03-15T12:36:10Z",
-    "labels": {
-      "grafana.app/deprecatedInternalID": "18"
-    },
-    "annotations": {
-      "grafana.app/createdBy": "user:befqy9k2n3oxse",
-      "grafana.app/folder": "eefyy38np67eoe",
-      "grafana.app/updatedBy": "user:befqy9k2n3oxse",
-      "grafana.app/updatedTimestamp": "2025-11-18T18:12:16Z",
-      "grafana.app/folderTitle": "OS",
-      "grafana.app/folderUrl": "/dashboards/f/eefyy38np67eoe/os"
-    }
+    "creationTimestamp": "2025-03-15T12:36:10Z"
   },
   "spec": {
     "annotations": [
