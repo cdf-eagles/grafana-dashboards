@@ -1,0 +1,2373 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "w3usaHLZk",
+    "namespace": "org-2",
+    "uid": "6CKQ5XseRRokT7vyL4aLLaWAGrjHFb6oF01CyXI65XIX",
+    "resourceVersion": "1741985610000032",
+    "generation": 2,
+    "creationTimestamp": "2025-03-14T20:51:42Z",
+    "labels": {
+      "grafana.app/deprecatedInternalID": "13"
+    },
+    "annotations": {
+      "grafana.app/createdBy": "user:befqy9k2n3oxse",
+      "grafana.app/folder": "defukp7to2ha8f",
+      "grafana.app/updatedBy": "user:befqy9k2n3oxse",
+      "grafana.app/updatedTimestamp": "2025-03-14T20:53:30Z",
+      "grafana.app/folderTitle": "UniFi",
+      "grafana.app/folderUrl": "/dashboards/f/defukp7to2ha8f/unifi"
+    }
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "spec": {}
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "builtIn": true,
+          "legacyOptions": {
+            "type": "dashboard"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Crosshair",
+    "description": "UniFi Poller v2.0.1 Displays DPI information for clients in a UniFi network using Prometheus.",
+    "editable": true,
+    "elements": {
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "id": 10,
+          "title": "Total Traffic by Application",
+          "description": "Showing traffic by application for selected clients. This updates with the variables on the dashboard.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": " sum by (category, application) (increase(unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=~\"$Category\"}[$__range])+increase(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\",  category=~\"$Category\"}[$__range]))",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": "{{application}} ({{category}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 3
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "piechart",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "breakPoint": "50%",
+                    "combine": {
+                      "label": "Other",
+                      "threshold": "0.009"
+                    },
+                    "fontSize": "70%",
+                    "format": "bytes",
+                    "legend": {
+                      "header": "Rx+Tx",
+                      "percentage": false,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "values": true
+                    },
+                    "legendType": "Right side",
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "strokeWidth": "1",
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-1035": {
+        "kind": "Panel",
+        "spec": {
+          "id": 1035,
+          "title": "Transmit Packets - $Client",
+          "description": "Transmit Packets per Application for $Client",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "rate(unpoller_client_dpi_transmit_packets{site_name=~\"$Site\", [[Identifier]]!~\"TOTAL\", [[Identifier]]=~\"$Client\"}[$__interval])",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{application}} ({{category}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "pps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-172": {
+        "kind": "Panel",
+        "spec": {
+          "id": 172,
+          "title": "Transmit Packets - $Category",
+          "description": "Transmit Packets per Client / Application",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier,application) (rate(unpoller_client_dpi_transmit_packets{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} ({{application}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "pps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-173": {
+        "kind": "Panel",
+        "spec": {
+          "id": 173,
+          "title": "Receive Packets - $Category",
+          "description": "Receive Packets per Client / Application",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier,application) (rate(unpoller_client_dpi_receive_packets{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} ({{application}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "pps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-2325": {
+        "kind": "Panel",
+        "spec": {
+          "id": 2325,
+          "title": "Receive Packets - $Client",
+          "description": "Receive Packets per Application for $Client",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "rate(unpoller_client_dpi_receive_packets{site_name=~\"$Site\", [[Identifier]]!~\"TOTAL\", [[Identifier]]=~\"$Client\"}[$__interval])",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{application}} ({{category}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "pps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-2329": {
+        "kind": "Panel",
+        "spec": {
+          "id": 2329,
+          "title": "Transmit Bytes - $Client",
+          "description": "Transmit Bytes per Application for $Client",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "rate(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]!~\"TOTAL\", [[Identifier]]=~\"$Client\"}[$__interval])",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{application}} ({{category}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-304": {
+        "kind": "Panel",
+        "spec": {
+          "id": 304,
+          "title": "Bytes Transferred per Category",
+          "description": "Bytes Transferred by Category. Receive is on the negative axis.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (category)(rate(unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=~\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": " {{category}} Rx"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (category)(rate(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\",  category=~\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{category}} Tx"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [
+                      {
+                        "$$hashKey": "object:2187",
+                        "alias": "/Rx/",
+                        "transform": "negative-Y"
+                      }
+                    ],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:122",
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:123",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-305": {
+        "kind": "Panel",
+        "spec": {
+          "id": 305,
+          "title": "Packets Transferred  per Category",
+          "description": "Packets Transferred by Category. Receive is on the negative axis.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (category)(rate(unpoller_client_dpi_receive_packets{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=~\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": " {{category}} Rx"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (category)(rate(unpoller_client_dpi_transmit_packets{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=~\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{category}} Tx"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [
+                      {
+                        "$$hashKey": "object:2226",
+                        "alias": "/Rx/",
+                        "transform": "negative-Y"
+                      }
+                    ],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "pps",
+                        "label": "",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-3409": {
+        "kind": "Panel",
+        "spec": {
+          "id": 3409,
+          "title": "Information",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {}
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "text",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "text",
+                  "originalOptions": {
+                    "content": "<center>If this dashboard contains no data that means you need to enable DPI. It must be enabled on your UniFi controller AND in UniFi Poller. Two places! Please carefully check your <a href=\"https://github.com/unifi-poller/unifi-poller/wiki/Configuration\">configurations</a>.</center>",
+                    "mode": "html"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-40": {
+        "kind": "Panel",
+        "spec": {
+          "id": 40,
+          "title": "Receive Bytes - $Category",
+          "description": "Receive Bytes per Client / Application",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier,application) (rate(unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} ({{application}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-437": {
+        "kind": "Panel",
+        "spec": {
+          "id": 437,
+          "title": "Totals Category",
+          "description": "This shows lifetime rx+tx total and totals accumulated during the selected time range. The filters at the top of this page control _all_ of the graphs, and in some cases control the visibility of graphs. ie. Adding more clients displays more graphs under the collapsed Clients rows.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (site_name, category) (unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", category=~\"$Category\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "F",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (site_name, category) (unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", category=~\"$Category\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "E",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (site_name, category) (increase(unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", category=~\"$Category\"}[$__range]))",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (site_name, category) (increase(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", category=~\"$Category\"}[$__range]))",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (site_name, category)  (increase(unpoller_client_dpi_receive_packets{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", category=~\"$Category\"}[$__range]))",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (site_name, category)  (increase(unpoller_client_dpi_transmit_packets{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", category=~\"$Category\"}[$__range]))",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "table-old",
+                  "originalOptions": {
+                    "columns": [],
+                    "fontSize": "100%",
+                    "showHeader": true,
+                    "sort": {
+                      "col": 6,
+                      "desc": true
+                    },
+                    "styles": [
+                      {
+                        "alias": "Time",
+                        "align": "auto",
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "pattern": "Time",
+                        "type": "hidden"
+                      },
+                      {
+                        "alias": "Bytes Rx",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "pattern": "Value #A",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "bytes"
+                      },
+                      {
+                        "alias": "Bytes Tx",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value #B",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "bytes"
+                      },
+                      {
+                        "alias": "Rx Packets",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value #C",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Tx Packets",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value #D",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Bytes Tx TIOTAL",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value #E",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "bytes"
+                      },
+                      {
+                        "alias": "Site",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "site_name",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Category",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "link": false,
+                        "mappingType": 1,
+                        "pattern": "category",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Bytes Rx TOTAL",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 0,
+                        "mappingType": 1,
+                        "pattern": "Value #F",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "decbytes"
+                      }
+                    ],
+                    "transform": "table"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-700": {
+        "kind": "Panel",
+        "spec": {
+          "id": 700,
+          "title": "Receive Bytes - $Client",
+          "description": "Receive Bytes per Application for $Client",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "rate(unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]!~\"TOTAL\", [[Identifier]]=~\"$Client\"}[$__interval])",
+                        "instant": false,
+                        "interval": "$Smooth",
+                        "legendFormat": "{{application}} ({{category}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "id": 9,
+          "title": "Total Traffic by Category",
+          "description": "Showing traffic by category.\nThis updates with the variables on the dashboard.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by (category) (increase(unpoller_client_dpi_receive_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=~\"$Category\"}[$__range])+increase(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=~\"$Category\"}[$__range]))",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": "{{category}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 3
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "piechart",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "breakPoint": "50%",
+                    "combine": {
+                      "label": "Other",
+                      "threshold": "0.005"
+                    },
+                    "fontSize": "70%",
+                    "format": "bytes",
+                    "legend": {
+                      "header": "Rx+Tx",
+                      "percentage": false,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "values": true
+                    },
+                    "legendType": "Right side",
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "strokeWidth": "1",
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-93": {
+        "kind": "Panel",
+        "spec": {
+          "id": 93,
+          "title": "Transmit Bytes - $Category",
+          "description": "Transmit Bytes per Client / Application",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cefqymfyqr474f"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier,application) (rate(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\", [[Identifier]]=~\"$Client\", [[Identifier]]!~\"TOTAL\", category=\"$Category\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} ({{application}})"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": false,
+                      "hideEmpty": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "RowsLayout",
+      "spec": {
+        "rows": [
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "",
+              "collapse": false,
+              "hideHeader": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 2,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-3409"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 2,
+                        "width": 24,
+                        "height": 22,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-437"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 24,
+                        "width": 12,
+                        "height": 12,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 24,
+                        "width": 12,
+                        "height": 12,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-10"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 36,
+                        "width": 24,
+                        "height": 17,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-304"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 53,
+                        "width": 24,
+                        "height": 17,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-305"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Clients Rx Packets",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-2325"
+                        },
+                        "repeat": {
+                          "mode": "variable",
+                          "value": "Client",
+                          "direction": "v"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Clients Tx Bytes",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-2329"
+                        },
+                        "repeat": {
+                          "mode": "variable",
+                          "value": "Client",
+                          "direction": "v"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Clients Tx Packets",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-1035"
+                        },
+                        "repeat": {
+                          "mode": "variable",
+                          "value": "Client",
+                          "direction": "v"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Clients Rx Bytes",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-700"
+                        },
+                        "repeat": {
+                          "mode": "variable",
+                          "value": "Client",
+                          "direction": "v"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "$Category",
+              "collapse": true,
+              "repeat": {
+                "mode": "variable",
+                "value": "Category"
+              },
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 9,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-40"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 9,
+                        "width": 24,
+                        "height": 9,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-93"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 18,
+                        "width": 24,
+                        "height": 9,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-173"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 27,
+                        "width": 24,
+                        "height": 9,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-172"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [
+      {
+        "title": "UniFi Poller",
+        "type": "dashboards",
+        "icon": "external link",
+        "tooltip": "",
+        "tags": [
+          "unifi-poller"
+        ],
+        "asDropdown": true,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": true
+      },
+      {
+        "title": "Help",
+        "type": "link",
+        "icon": "question",
+        "tooltip": "",
+        "url": "https://golift.io/unifi-poller/issues",
+        "tags": [],
+        "asDropdown": false,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": false
+      },
+      {
+        "title": "Wiki",
+        "type": "link",
+        "icon": "doc",
+        "tooltip": "",
+        "url": "https://golift.io/unifi-poller/wiki",
+        "tags": [],
+        "asDropdown": false,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": false
+      },
+      {
+        "title": "Discord",
+        "type": "link",
+        "icon": "bolt",
+        "tooltip": "",
+        "url": "https://discord.gg/KnyKYt2",
+        "tags": [],
+        "asDropdown": false,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": false
+      }
+    ],
+    "liveNow": false,
+    "preload": false,
+    "tags": [
+      "unifi",
+      "unifi-poller"
+    ],
+    "timeSettings": {
+      "timezone": "browser",
+      "from": "now-3h",
+      "to": "now",
+      "autoRefresh": "1m",
+      "autoRefreshIntervals": [
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h"
+      ],
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "UniFi-Poller: Client DPI - Prometheus",
+    "variables": [
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Controller",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "hideVariable",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(source)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalDesc",
+          "definition": "label_values(source)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allValue": ".*",
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Site",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds{source=~\"$Controller\"},site_name)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_uptime_seconds{source=~\"$Controller\"},site_name)",
+          "options": [],
+          "multi": true,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "Identifier",
+          "query": "name,mac",
+          "current": {
+            "text": "name",
+            "value": "name"
+          },
+          "options": [
+            {
+              "selected": false,
+              "text": "name",
+              "value": "name"
+            },
+            {
+              "selected": true,
+              "text": "mac",
+              "value": "mac"
+            }
+          ],
+          "multi": false,
+          "includeAll": false,
+          "hide": "dontHide",
+          "skipUrlSync": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Client",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\"},[[Identifier]])"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\"},[[Identifier]])",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Category",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\"},category)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_dpi_transmit_bytes{site_name=~\"$Site\"},category)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allValue": ".*",
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "Smooth",
+          "query": "30s,1m,2m,5m,10m,15m,30m,1h",
+          "current": {
+            "text": "2m",
+            "value": "2m"
+          },
+          "options": [
+            {
+              "selected": false,
+              "text": "30s",
+              "value": "30s"
+            },
+            {
+              "selected": false,
+              "text": "1m",
+              "value": "1m"
+            },
+            {
+              "selected": true,
+              "text": "2m",
+              "value": "2m"
+            },
+            {
+              "selected": false,
+              "text": "5m",
+              "value": "5m"
+            },
+            {
+              "selected": false,
+              "text": "10m",
+              "value": "10m"
+            },
+            {
+              "selected": false,
+              "text": "15m",
+              "value": "15m"
+            },
+            {
+              "selected": false,
+              "text": "30m",
+              "value": "30m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            }
+          ],
+          "multi": false,
+          "includeAll": false,
+          "hide": "dontHide",
+          "skipUrlSync": false,
+          "allowCustomValue": true
+        }
+      }
+    ]
+  }
+}

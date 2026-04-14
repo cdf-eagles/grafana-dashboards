@@ -1,0 +1,4049 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "jMfvAjxWz",
+    "namespace": "org-2",
+    "uid": "At5ZCkQepxWMXdyjkiEneBgs22KCztXjCkx1docXGmsX",
+    "resourceVersion": "1767994540000145",
+    "generation": 1,
+    "creationTimestamp": "2026-01-09T21:35:49Z",
+    "labels": {
+      "grafana.app/deprecatedInternalID": "63"
+    },
+    "annotations": {
+      "grafana.app/createdBy": "user:befqy9k2n3oxse",
+      "grafana.app/folder": "defukp7to2ha8f",
+      "grafana.app/updatedBy": "user:befqy9k2n3oxse",
+      "grafana.app/updatedTimestamp": "2026-01-09T21:35:49Z",
+      "grafana.app/folderTitle": "UniFi",
+      "grafana.app/folderUrl": "/dashboards/f/defukp7to2ha8f/unifi"
+    }
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "spec": {}
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "builtIn": true,
+          "legacyOptions": {
+            "type": "dashboard"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Crosshair",
+    "description": "UniFi Poller v2.0.1 Displays detailed information for clients in a UniFi network using Prometheus.",
+    "editable": true,
+    "elements": {
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "id": 10,
+          "title": "Wireless Signal",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_radio_signal_db{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "instant": false,
+                        "interval": "$Smooth",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": false,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "dBm",
+                        "label": "Signal Power",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "id": 11,
+          "title": "Clients / AP Radio",
+          "description": "Visualize how many clients are connected to which radios/APs.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "count by (radio_proto) (unpoller_client_roam_count_total{site_name=~\"$Site\", name=~\"$Wireless\", ap_name=~\"$AP\"})",
+                        "instant": true,
+                        "interval": "$Smooth",
+                        "legendFormat": "{{radio_proto}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 3
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "piechart",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "breakPoint": "25%",
+                    "combine": {
+                      "label": "Others",
+                      "threshold": 0
+                    },
+                    "decimals": 0,
+                    "fontSize": "70%",
+                    "format": "short",
+                    "legend": {
+                      "header": "",
+                      "percentage": true,
+                      "show": true,
+                      "values": false
+                    },
+                    "legendType": "Right side",
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "strokeWidth": "3",
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "id": 12,
+          "title": "Client MAC OUI Breakdown",
+          "description": "This shows an OUI breakdown from Unifi's perspective. e = wired, w = wireless",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "count by (oui) (unpoller_client_uptime_seconds{site_name=~\"$Site\", name=~\"$Wireless\", ap_name=~\"$AP\"})",
+                        "instant": true,
+                        "interval": "$Smooth",
+                        "legendFormat": " w {{oui}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "count by (oui) (+unpoller_client_uptime_seconds{site_name=~\"$Site\", name=~\"$Wired\", sw_name=~\"$Switch\"})",
+                        "instant": true,
+                        "interval": "$Smooth",
+                        "legendFormat": "e  {{oui}}"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 3
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "piechart",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "breakPoint": "50%",
+                    "combine": {
+                      "label": "Others",
+                      "threshold": "0.01"
+                    },
+                    "decimals": 0,
+                    "fontSize": "70%",
+                    "format": "short",
+                    "legend": {
+                      "header": "Count",
+                      "percentage": true,
+                      "percentageDecimals": 0,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "values": true
+                    },
+                    "legendType": "Right side",
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "strokeWidth": 1,
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "id": 15,
+          "title": "Client Bandwidth: Cameras",
+          "description": "Cameras TX / RX bytes per second. Rx is on the negative axis. This graph shows any device with the word \"camera\" in its name and has nothing to do with UniFi Protect/video products. e = wired, w = wireless",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_bytes_total{ap_name=~\"$AP\", name=~\".*camera.*|.*cam$\", site_name=~\"$Site\"}[$__interval]))",
+                        "instant": false,
+                        "interval": "$Smooth",
+                        "legendFormat": "w {{name}} {{mac}} Tx"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_receive_bytes_total{ap_name=~\"$AP\", name=~\".*camera.*|.*cam$\", site_name=~\"$Site\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "w {{name}} {{mac}} Rx"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_bytes_total{sw_name=~\"$Switch\", name=~\".*camera.*|.*cam$\", site_name=~\"$Site\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "e {{name}} {{mac}} Tx"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_receive_bytes_total{sw_name=~\"$Switch\", name=~\".*camera.*|.*cam$\", site_name=~\"$Site\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "e {{name}} {{mac}} Rx"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "hideEmpty": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "avg",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [
+                      {
+                        "$$hashKey": "object:510",
+                        "alias": "/Rx$/",
+                        "transform": "negative-Y"
+                      }
+                    ],
+                    "spaceLength": 10,
+                    "stack": true,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "label": "bytes / sec",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "id": 19,
+          "title": "TX Rate",
+          "description": "Client reported transmit rate.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_radio_transmit_rate_bps{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "id": 2,
+          "title": "Switch Bandwidth / Wired Devices",
+          "description": "Wired TX / RX bytes per second (calculated in 30 second buckets). Rx is on the negative axis. Does not include amazon and camera devices. Unaffected by the AP setting.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_bytes_total{name!~\".*camera.*|.*cam(era)?$\", name=~\"$Wired\", site_name=~\"$Site\", sw_name=~\"$Switch\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} Tx"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_receive_bytes_total{name!~\".*camera.*|.*cam(era)?$\", name=~\"$Wired\", site_name=~\"$Site\", sw_name=~\"$Switch\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{name}} {{mac}} Rx"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "hideEmpty": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [
+                      {
+                        "$$hashKey": "object:398",
+                        "alias": "/Rx$/",
+                        "transform": "negative-Y"
+                      }
+                    ],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "label": "bytes / sec",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "id": 21,
+          "title": "Wireless Devices",
+          "description": "This table represents current (latest) data.\nBytes columns are lifetime totals.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by (channel,essid,ip,mac,name,network,oui,radio_desc,site_name,source) (\n unpoller_client_receive_bytes_total{wired!=\"true\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by (channel,essid,ip,mac,name,network,oui,radio_desc,site_name,source) (\n unpoller_client_transmit_bytes_total{wired!=\"true\",site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by (channel,essid,ip,mac,name,network,oui,radio_desc,site_name,source) (\n unpoller_client_uptime_seconds{wired!=\"true\",site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": "",
+                        "legendFormat": ""
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "table-old",
+                  "originalOptions": {
+                    "columns": [],
+                    "fontSize": "80%",
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                      "col": 9,
+                      "desc": true
+                    },
+                    "styles": [
+                      {
+                        "alias": "Bytes Rx",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value #A",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "decbytes"
+                      },
+                      {
+                        "alias": "Name",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "name",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Chan",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "channel",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Device MAC",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "mac",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Radio",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "radio",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "radio_name",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "AP / Radio / Proto",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "radio_desc",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "radio_proto",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "job",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "bssid",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "ap_mac",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "Time",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "wired",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "vlan",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "sw_mac",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "instance",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "gw_mac",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Network",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "network",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "OUI",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "oui",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Address",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "ip",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "ESSID",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "essid",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Switch",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "sw_name",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Sw Port",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "sw_port",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Site",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "site_name",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "gw_name",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Controller",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "source",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Bytes Tx",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value #B",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "decbytes"
+                      },
+                      {
+                        "alias": "Uptime",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "Value #C",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "s"
+                      }
+                    ],
+                    "transform": "table"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-22": {
+        "kind": "Panel",
+        "spec": {
+          "id": 22,
+          "title": "Wired Devices",
+          "description": "This table represents current (latest) data.\nBytes columns are lifetime totals.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by (ap_name,ip,mac,name,network,oui,site_name,source,sw_port) (\n     unpoller_client_uptime_seconds{wired=\"true\", site_name=~\"$Site\", name=~\"$Wired\", sw_name=~\"$Switch\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": ""
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by (ap_name,ip,mac,name,network,oui,site_name,source,sw_port) (\n     unpoller_client_receive_bytes_total{wired=\"true\", site_name=~\"$Site\", name=~\"$Wired\", sw_name=~\"$Switch\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": ""
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by (ap_name,ip,mac,name,network,oui,site_name,source,sw_port) (\n     unpoller_client_transmit_bytes_total{wired=\"true\", site_name=~\"$Site\", name=~\"$Wired\", sw_name=~\"$Switch\"})",
+                        "format": "table",
+                        "instant": true,
+                        "interval": ""
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "table-old",
+                  "originalOptions": {
+                    "columns": [],
+                    "fontSize": "80%",
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                      "col": 9,
+                      "desc": true
+                    },
+                    "styles": [
+                      {
+                        "alias": "Time",
+                        "align": "auto",
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "link": false,
+                        "linkUrl": "http://$__cell",
+                        "pattern": "Time",
+                        "type": "hidden"
+                      },
+                      {
+                        "alias": "Sw Port",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "decimals": 0,
+                        "pattern": "sw_port",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Name",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "name",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Device MAC",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "link": false,
+                        "mappingType": 1,
+                        "pattern": "mac",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Uptime",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "mappingType": 1,
+                        "pattern": "Value",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "s"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "__name__",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "gw_mac",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "gw_name",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "instance",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Address",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "ip",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "job",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Network",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "network",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "OUI",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "oui",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Site",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "site_name",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "sw_mac",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Switch",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "sw_name",
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "wired",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Controller",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "source",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                      },
+                      {
+                        "alias": "Uptime",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "mappingType": 1,
+                        "pattern": "Value #A",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "s"
+                      },
+                      {
+                        "alias": "Bytes Rx",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 1,
+                        "mappingType": 1,
+                        "pattern": "Value #B",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "decbytes"
+                      },
+                      {
+                        "alias": "Bytes Tx",
+                        "align": "auto",
+                        "colors": [
+                          "rgba(245, 54, 54, 0.9)",
+                          "rgba(237, 129, 40, 0.89)",
+                          "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 1,
+                        "mappingType": 1,
+                        "pattern": "Value #C",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "decbytes"
+                      }
+                    ],
+                    "transform": "table"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "id": 23,
+          "title": "Client Bandwidth / Echos & FireTVs",
+          "description": "Amazon Devices TX / RX bytes per second. Rx is on the negative axis. My home network has a ton of Amazon devices, so I broke them out separately. If you don't have Amazon devices, or they have different names, you can edit the query to use a different name. e = wired, w = wireless",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_bytes_total{name=~\"^amazon.*\", name=~\"$Wireless\", site_name=~\"$Site\", ap_name=~\"$AP\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "w {{name}} {{mac}} Tx"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_receive_bytes_total{name=~\"^amazon.*\", name=~\"$Wireless\", site_name=~\"$Site\", ap_name=~\"$AP\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "w {{name}} {{mac}} Rx"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_bytes_total{name=~\"^amazon.*\", name=~\"$Wired\", site_name=~\"$Site\", sw_name=~\"$Switch\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "e {{name}} {{mac}} Tx"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_receive_bytes_total{name=~\"^amazon.*\", name=~\"$Wired\", site_name=~\"$Site\", sw_name=~\"$Switch\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "e {{name}} {{mac}} Rx"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [
+                      {
+                        "$$hashKey": "object:469",
+                        "alias": "/Rx$/",
+                        "transform": "negative-Y"
+                      }
+                    ],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "label": "bytes / sec",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "id": 24,
+          "title": "Client Wifi Tx Attempts",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "avg by ($Identifier) (rate(unpoller_client_wifi_attempts_transmit_total{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 1,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "short",
+                        "label": "Attempts / Second",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "id": 25,
+          "title": "Client Anomalies",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_anomalies{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "short",
+                        "label": "Anomalies",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-26": {
+        "kind": "Panel",
+        "spec": {
+          "id": 26,
+          "title": "RX Rate",
+          "description": "Client reported receive rate.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_radio_receive_rate_bps{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "id": 27,
+          "title": "Client Connection Quality %",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_ccq_ratio{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": false,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 1,
+                        "format": "percentunit",
+                        "label": "CCQ",
+                        "logBase": 1,
+                        "max": "1",
+                        "min": "0",
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-28": {
+        "kind": "Panel",
+        "spec": {
+          "id": 28,
+          "title": "Roam Count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_roam_count_total{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "short",
+                        "label": "Roam Count",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-29": {
+        "kind": "Panel",
+        "spec": {
+          "id": 29,
+          "title": "Client Transmit Power",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_radio_transmit_power_dbm{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "dBm",
+                        "label": "Transmit Power dBm",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "id": 3,
+          "title": "UAP Bandwidth / Wireless Devices",
+          "description": "Bandwidth usage per wireless devices as reported by the UAPs. Rx is on the negative axis. Does not include amazon devices.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_bytes_total{name!~\".*camera.*|.*cam(era)?$\", name=~\"$Wireless\", site_name=~\"$Site\", ap_name=~\"$AP\"}[$__interval]))",
+                        "instant": false,
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} Tx"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_receive_bytes_total{name!~\".*camera.*|.*cam(era)?$\", name=~\"$Wireless\", site_name=~\"$Site\", ap_name=~\"$AP\"}[$__interval]))",
+                        "instant": false,
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}} Rx"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [
+                      {
+                        "$$hashKey": "object:323",
+                        "alias": "/Rx$/",
+                        "transform": "negative-Y"
+                      }
+                    ],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "label": "bytes / sec",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-30": {
+        "kind": "Panel",
+        "spec": {
+          "id": 30,
+          "title": "Client Transmit Retries",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (rate(unpoller_client_transmit_retries_total{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"}[$__interval]))",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "max",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "short",
+                        "label": "Tx Retries / Second",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-31": {
+        "kind": "Panel",
+        "spec": {
+          "id": 31,
+          "title": "Client Satisfaction",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_satisfaction_ratio{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 1,
+                        "format": "percentunit",
+                        "label": "Client Satisfaction",
+                        "logBase": 1,
+                        "max": "1",
+                        "min": "0",
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "id": 6,
+          "title": "UAP Client Stats / Noise",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_noise_db{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "instant": false,
+                        "interval": "$Smooth",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 1,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "dB",
+                        "label": "Noise",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "id": 7,
+          "title": "Received Signal Strength Indicator",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "sum by ($Identifier) (unpoller_client_rssi_db{ap_name=~\"$AP\", site_name=~\"$Site\", name=~\"$Wireless\"})",
+                        "interval": "1m",
+                        "legendFormat": "{{name}} {{mac}}"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 0,
+                    "fill": 0,
+                    "fillGradient": 0,
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": false,
+                      "current": true,
+                      "hideEmpty": true,
+                      "hideZero": false,
+                      "max": true,
+                      "min": true,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "min",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "decimals": 0,
+                        "format": "dB",
+                        "label": "RSSI Quality",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "dataLinks": []
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "id": 9,
+          "title": "Clients / Channel",
+          "description": "Visualize wireless channel usage w/ wired client counts.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "count by (hostname) (unpoller_client_uptime_seconds{site_name=~\"$Site\", name=~\"$Wired\", sw_name=~\"$Switch\"})",
+                        "instant": true,
+                        "legendFormat": "Wired"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "spec": {
+                        "expr": "count by (channel) (unpoller_client_roam_count_total{site_name=~\"$Site\", name=~\"$Wireless\", ap_name=~\"$AP\"})",
+                        "instant": true,
+                        "interval": "$Smooth",
+                        "legendFormat": "Channel {{channel}}"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 3
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "piechart",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "breakPoint": "50%",
+                    "combine": {
+                      "label": "Others",
+                      "threshold": 0
+                    },
+                    "decimals": 0,
+                    "fontSize": "70%",
+                    "format": "short",
+                    "legend": {
+                      "header": "",
+                      "percentage": true,
+                      "show": true,
+                      "values": false
+                    },
+                    "legendType": "Right side",
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "strokeWidth": "2",
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          },
+          "transparent": true
+        }
+      }
+    },
+    "layout": {
+      "kind": "GridLayout",
+      "spec": {
+        "items": [
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 0,
+              "width": 24,
+              "height": 13,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-21"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 13,
+              "width": 24,
+              "height": 12,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-22"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 25,
+              "width": 8,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-9"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 8,
+              "y": 25,
+              "width": 8,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-11"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 16,
+              "y": 25,
+              "width": 8,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-12"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 35,
+              "width": 24,
+              "height": 14,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-3"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 49,
+              "width": 24,
+              "height": 17,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-2"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 66,
+              "width": 12,
+              "height": 11,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-23"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 66,
+              "width": 12,
+              "height": 11,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-15"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 77,
+              "width": 12,
+              "height": 9,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-7"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 77,
+              "width": 12,
+              "height": 9,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-10"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 86,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-6"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 86,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-19"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 94,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-24"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 94,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-26"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 102,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-30"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 102,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-29"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 110,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-25"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 110,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-31"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 118,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-28"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 118,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-27"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [
+      {
+        "title": "UniFi Poller",
+        "type": "dashboards",
+        "icon": "external link",
+        "tooltip": "",
+        "tags": [
+          "unifi-poller"
+        ],
+        "asDropdown": true,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": true
+      },
+      {
+        "title": "Help",
+        "type": "link",
+        "icon": "question",
+        "tooltip": "",
+        "url": "https://golift.io/unifi-poller/issues",
+        "tags": [],
+        "asDropdown": false,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": false
+      },
+      {
+        "title": "Wiki",
+        "type": "link",
+        "icon": "doc",
+        "tooltip": "",
+        "url": "https://golift.io/unifi-poller/wiki",
+        "tags": [],
+        "asDropdown": false,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": false
+      },
+      {
+        "title": "Discord",
+        "type": "link",
+        "icon": "bolt",
+        "tooltip": "",
+        "url": "https://discord.gg/KnyKYt2",
+        "tags": [],
+        "asDropdown": false,
+        "targetBlank": false,
+        "includeVars": false,
+        "keepTime": false
+      }
+    ],
+    "liveNow": false,
+    "preload": false,
+    "tags": [
+      "unifi",
+      "unifi-poller"
+    ],
+    "timeSettings": {
+      "timezone": "browser",
+      "from": "now-3h",
+      "to": "now",
+      "autoRefresh": "1m",
+      "autoRefreshIntervals": [
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h"
+      ],
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "UniFi-Poller: Client Insights - Prometheus",
+    "variables": [
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Controller",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "hideVariable",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds,source)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalDesc",
+          "definition": "label_values(unpoller_client_uptime_seconds,source)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Site",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds{source=~\"$Controller\"},site_name)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_uptime_seconds{source=~\"$Controller\"},site_name)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allValue": ".*",
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "AP",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onTimeRangeChanged",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\"},ap_name)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\"},ap_name)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Switch",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\"},sw_name)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\"},sw_name)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Wireless",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\", ap_name=~\"$AP\", wired=\"false\"},name)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\", ap_name=~\"$AP\", wired=\"false\"},name)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allValue": ".*",
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Wired",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "__legacyStringValue": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\", sw_name=~\"$Switch\", wired=\"true\"},name)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "label_values(unpoller_client_uptime_seconds{site_name=~\"$Site\", sw_name=~\"$Switch\", wired=\"true\"},name)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allValue": ".*",
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "Smooth",
+          "query": "30s,1m,2m,5m,10m,15m,30m,1h",
+          "current": {
+            "text": "2m",
+            "value": "2m"
+          },
+          "options": [
+            {
+              "selected": false,
+              "text": "30s",
+              "value": "30s"
+            },
+            {
+              "selected": false,
+              "text": "1m",
+              "value": "1m"
+            },
+            {
+              "selected": true,
+              "text": "2m",
+              "value": "2m"
+            },
+            {
+              "selected": false,
+              "text": "5m",
+              "value": "5m"
+            },
+            {
+              "selected": false,
+              "text": "10m",
+              "value": "10m"
+            },
+            {
+              "selected": false,
+              "text": "15m",
+              "value": "15m"
+            },
+            {
+              "selected": false,
+              "text": "30m",
+              "value": "30m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            }
+          ],
+          "multi": false,
+          "includeAll": false,
+          "hide": "dontHide",
+          "skipUrlSync": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "Identifier",
+          "query": "name, name\\,mac",
+          "current": {
+            "text": "name",
+            "value": "name"
+          },
+          "options": [
+            {
+              "selected": true,
+              "text": "name",
+              "value": "name"
+            },
+            {
+              "selected": false,
+              "text": "name,mac",
+              "value": "name,mac"
+            }
+          ],
+          "multi": false,
+          "includeAll": false,
+          "hide": "dontHide",
+          "skipUrlSync": false,
+          "allowCustomValue": true
+        }
+      }
+    ]
+  }
+}
