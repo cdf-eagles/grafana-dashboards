@@ -2,45 +2,26 @@
   "apiVersion": "dashboard.grafana.app/v2",
   "kind": "Dashboard",
   "metadata": {
-    "name": "defzqarl8lpfkf",
-    "namespace": "org-2",
-    "uid": "5gWRt0IwM2U0zA6ye3XxAxEeXBKNXfxPz4zmLO3vKl0X",
-    "resourceVersion": "1770272890000184",
-    "generation": 11,
-    "creationTimestamp": "2025-03-16T07:33:41Z",
-    "labels": {
-      "grafana.app/deprecatedInternalID": "25"
-    },
-    "annotations": {
-      "grafana.app/createdBy": "user:befqy9k2n3oxse",
-      "grafana.app/folder": "eefyy38np67eoe",
-      "grafana.app/updatedBy": "user:befqy9k2n3oxse",
-      "grafana.app/updatedTimestamp": "2026-02-05T06:28:15Z",
-      "grafana.app/folderTitle": "OS",
-      "grafana.app/folderUrl": "/dashboards/f/eefyy38np67eoe/os"
-    }
+    "name": "defzqarl8lpfkf"
   },
   "spec": {
     "annotations": [
       {
         "kind": "AnnotationQuery",
         "spec": {
-          "query": {
-            "kind": "DataQuery",
-            "group": "grafana",
-            "version": "v0",
-            "datasource": {
-              "name": "-- Grafana --"
-            },
-            "spec": {}
-          },
+          "builtIn": true,
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "builtIn": true,
-          "legacyOptions": {
-            "type": "dashboard"
+          "name": "Annotations \u0026 Alerts",
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {},
+            "version": "v0"
           }
         }
       }
@@ -52,10 +33,6 @@
       "panel-10": {
         "kind": "Panel",
         "spec": {
-          "id": 10,
-          "title": "CPU Busy",
-          "description": "Busy state of all CPU cores together",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -63,13 +40,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "exemplar": false,
@@ -80,23 +57,63 @@
                         "legendFormat": "",
                         "range": false,
                         "step": 900
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Busy state of all CPU cores together",
+          "id": 10,
+          "links": [],
+          "title": "CPU Busy",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "gauge",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "max": 100,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 0
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 85
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 95
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
               "options": {
+                "barShape": "flat",
+                "barWidthFactor": 0.5,
+                "effects": {
+                  "barGlow": false,
+                  "centerGlow": false,
+                  "gradient": false
+                },
+                "endpointMarker": "point",
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "horizontal",
@@ -107,50 +124,23 @@
                   "fields": "",
                   "values": false
                 },
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
-                "sizing": "auto"
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "percent",
-                  "decimals": 1,
-                  "min": 0,
-                  "max": 100,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "rgba(50, 172, 45, 0.97)"
-                      },
-                      {
-                        "value": 85,
-                        "color": "rgba(237, 129, 40, 0.89)"
-                      },
-                      {
-                        "value": 95,
-                        "color": "rgba(245, 54, 54, 0.9)"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  }
-                },
-                "overrides": []
+                "sizing": "auto",
+                "sparkline": false,
+                "textMode": "auto"
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-11": {
         "kind": "Panel",
         "spec": {
-          "id": 11,
-          "title": "Sys Load (5m avg)",
-          "description": "Busy state of all CPU cores together (5 min average)",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -158,13 +148,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "exemplar": false,
@@ -174,23 +164,63 @@
                         "intervalFactor": 1,
                         "range": false,
                         "step": 900
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Busy state of all CPU cores together (5 min average)",
+          "id": 11,
+          "links": [],
+          "title": "Sys Load (5m avg)",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "gauge",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "max": 100,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 0
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 85
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 95
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
               "options": {
+                "barShape": "flat",
+                "barWidthFactor": 0.5,
+                "effects": {
+                  "barGlow": false,
+                  "centerGlow": false,
+                  "gradient": false
+                },
+                "endpointMarker": "point",
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "horizontal",
@@ -201,50 +231,23 @@
                   "fields": "",
                   "values": false
                 },
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
-                "sizing": "auto"
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "percent",
-                  "decimals": 1,
-                  "min": 0,
-                  "max": 100,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "rgba(50, 172, 45, 0.97)"
-                      },
-                      {
-                        "value": 85,
-                        "color": "rgba(237, 129, 40, 0.89)"
-                      },
-                      {
-                        "value": 95,
-                        "color": "rgba(245, 54, 54, 0.9)"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  }
-                },
-                "overrides": []
+                "sizing": "auto",
+                "sparkline": false,
+                "textMode": "auto"
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-12": {
         "kind": "Panel",
         "spec": {
-          "id": 12,
-          "title": "RAM Used",
-          "description": "Non available RAM memory",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -252,13 +255,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "exemplar": false,
@@ -268,23 +271,63 @@
                         "intervalFactor": 1,
                         "range": false,
                         "step": 900
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "B",
-                    "hidden": false
+                    "refId": "B"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Non available RAM memory",
+          "id": 12,
+          "links": [],
+          "title": "RAM Used",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "gauge",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "max": 100,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 0
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 80
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 90
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
               "options": {
+                "barShape": "flat",
+                "barWidthFactor": 0.5,
+                "effects": {
+                  "barGlow": false,
+                  "centerGlow": false,
+                  "gradient": false
+                },
+                "endpointMarker": "point",
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "horizontal",
@@ -295,50 +338,23 @@
                   "fields": "",
                   "values": false
                 },
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
-                "sizing": "auto"
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "percent",
-                  "decimals": 1,
-                  "min": 0,
-                  "max": 100,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "rgba(50, 172, 45, 0.97)"
-                      },
-                      {
-                        "value": 80,
-                        "color": "rgba(237, 129, 40, 0.89)"
-                      },
-                      {
-                        "value": 90,
-                        "color": "rgba(245, 54, 54, 0.9)"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  }
-                },
-                "overrides": []
+                "sizing": "auto",
+                "sparkline": false,
+                "textMode": "auto"
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-13": {
         "kind": "Panel",
         "spec": {
-          "id": 13,
-          "title": "SWAP Used",
-          "description": "Swap in use",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -346,13 +362,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "exemplar": false,
@@ -361,23 +377,63 @@
                         "intervalFactor": 1,
                         "range": false,
                         "step": 900
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Swap in use",
+          "id": 13,
+          "links": [],
+          "title": "SWAP Used",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "gauge",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "max": 100,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 0
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 10
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 25
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
               "options": {
+                "barShape": "flat",
+                "barWidthFactor": 0.5,
+                "effects": {
+                  "barGlow": false,
+                  "centerGlow": false,
+                  "gradient": false
+                },
+                "endpointMarker": "point",
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "horizontal",
@@ -388,50 +444,23 @@
                   "fields": "",
                   "values": false
                 },
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
-                "sizing": "auto"
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "percent",
-                  "decimals": 1,
-                  "min": 0,
-                  "max": 100,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "rgba(50, 172, 45, 0.97)"
-                      },
-                      {
-                        "value": 10,
-                        "color": "rgba(237, 129, 40, 0.89)"
-                      },
-                      {
-                        "value": 25,
-                        "color": "rgba(245, 54, 54, 0.9)"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  }
-                },
-                "overrides": []
+                "sizing": "auto",
+                "sparkline": false,
+                "textMode": "auto"
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-2": {
         "kind": "Panel",
         "spec": {
-          "id": 2,
-          "title": "CPU Usage",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -439,13 +468,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
                       "datasource": {
                         "name": "$datasource"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "(\n  (1 - rate(node_cpu_seconds_total{job=\"$job\", mode=\"idle\", instance=\"$instance\"}[$__interval]))\n/ ignoring(cpu) group_left\n  count without (cpu)( node_cpu_seconds_total{job=\"$job\", mode=\"idle\", instance=\"$instance\"})\n)\n",
@@ -454,53 +483,27 @@
                         "intervalFactor": 5,
                         "legendFormat": "{{cpu}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 2,
+          "links": [],
+          "title": "CPU Usage",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "percentunit",
-                  "min": 0,
-                  "max": 1,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -537,128 +540,31 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "max": 1,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "percentunit"
                 },
                 "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-3": {
-        "kind": "Panel",
-        "spec": {
-          "id": 3,
-          "title": "Load Average",
-          "description": "",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "node_load1{job=\"$job\", instance=\"$instance\"}",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "1m load average",
-                        "range": true
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "node_load5{job=\"$job\", instance=\"$instance\"}",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "5m load average",
-                        "range": true
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "node_load15{job=\"$job\", instance=\"$instance\"}",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "15m load average",
-                        "range": true
-                      }
-                    },
-                    "refId": "C",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "count(node_cpu_seconds_total{job=\"$job\", instance=\"$instance\", mode=\"idle\"})",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "logical cores",
-                        "range": true
-                      }
-                    },
-                    "refId": "D",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "12.3.2",
-            "spec": {
+              },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [],
                   "displayMode": "list",
@@ -670,24 +576,126 @@
                   "mode": "multi",
                   "sort": "none"
                 }
-              },
+              }
+            },
+            "version": "13.0.1+security-01"
+          }
+        }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "node_load1{job=\"$job\", instance=\"$instance\"}",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "1m load average",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "node_load5{job=\"$job\", instance=\"$instance\"}",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "5m load average",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "node_load15{job=\"$job\", instance=\"$instance\"}",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "15m load average",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "count(node_cpu_seconds_total{job=\"$job\", instance=\"$instance\", mode=\"idle\"})",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "logical cores",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 3,
+          "links": [],
+          "title": "Load Average",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "unit": "short",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -724,151 +732,30 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "short"
                 },
                 "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-4": {
-        "kind": "Panel",
-        "spec": {
-          "id": 4,
-          "title": "Memory Usage",
-          "description": "",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "(\n  node_memory_total_bytes{job=\"$job\", instance=\"$instance\"}\n-\n  node_memory_free_bytes{job=\"$job\", instance=\"$instance\"}\n-\n  node_memory_wired_bytes{job=\"$job\", instance=\"$instance\"}\n)\n",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "memory used, not incl. wired",
-                        "range": true
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "node_memory_wired_bytes{job=\"$job\", instance=\"$instance\"}",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "memory used, wired",
-                        "range": true
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "node_memory_free_bytes{job=\"$job\", instance=\"$instance\"}",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "memory free",
-                        "range": true
-                      }
-                    },
-                    "refId": "D",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "node_memory_swap_used_bytes{job=\"$job\", instance=\"$instance\"}",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "swap used",
-                        "range": true
-                      }
-                    },
-                    "refId": "E",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "(\n  node_memory_swap_total_bytes{job=\"$job\", instance=\"$instance\"}\n-\n  node_memory_swap_used_bytes{job=\"$job\", instance=\"$instance\"}\n)\n",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "swap free",
-                        "range": true
-                      }
-                    },
-                    "refId": "F",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "12.3.2",
-            "spec": {
+              },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [],
                   "displayMode": "list",
@@ -880,24 +767,149 @@
                   "mode": "multi",
                   "sort": "none"
                 }
-              },
+              }
+            },
+            "version": "13.0.1+security-01"
+          }
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "(\n  node_memory_total_bytes{job=\"$job\", instance=\"$instance\"}\n-\n  node_memory_free_bytes{job=\"$job\", instance=\"$instance\"}\n-\n  node_memory_wired_bytes{job=\"$job\", instance=\"$instance\"}\n)\n",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "memory used, not incl. wired",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "node_memory_wired_bytes{job=\"$job\", instance=\"$instance\"}",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "memory used, wired",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "node_memory_free_bytes{job=\"$job\", instance=\"$instance\"}",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "memory free",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "node_memory_swap_used_bytes{job=\"$job\", instance=\"$instance\"}",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "swap used",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "E"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "(\n  node_memory_swap_total_bytes{job=\"$job\", instance=\"$instance\"}\n-\n  node_memory_swap_used_bytes{job=\"$job\", instance=\"$instance\"}\n)\n",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "swap free",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "F"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 4,
+          "links": [],
+          "title": "Memory Usage",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "unit": "bytes",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -934,21 +946,50 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
                 },
                 "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-6": {
         "kind": "Panel",
         "spec": {
-          "id": 6,
-          "title": "Disk I/O",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -956,13 +997,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
                       "datasource": {
                         "name": "$datasource"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "rate(node_disk_read_bytes_total{job=\"$job\", instance=\"$instance\", device!=\"\"}[$__interval])",
@@ -971,22 +1012,22 @@
                         "intervalFactor": 2,
                         "legendFormat": "{{device}} read",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 },
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
                       "datasource": {
                         "name": "$datasource"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "rate(node_disk_written_bytes_total{job=\"$job\", instance=\"$instance\", device!=\"\"}[$__interval])",
@@ -995,22 +1036,22 @@
                         "intervalFactor": 2,
                         "legendFormat": "{{device}} written",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "B",
-                    "hidden": false
+                    "refId": "B"
                   }
                 },
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
                       "datasource": {
                         "name": "$datasource"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "rate(node_disk_io_time_seconds_total{job=\"$job\", instance=\"$instance\", device!=\"\"}[$__interval])",
@@ -1019,51 +1060,27 @@
                         "intervalFactor": 2,
                         "legendFormat": "{{device}} io time",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "C",
-                    "hidden": false
+                    "refId": "C"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 6,
+          "links": [],
+          "title": "Disk I/O",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "bytes",
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1100,7 +1117,21 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
                 },
                 "overrides": [
                   {
@@ -1120,77 +1151,12 @@
                     ]
                   }
                 ]
-              }
-            }
-          }
-        }
-      },
-      "panel-7": {
-        "kind": "Panel",
-        "spec": {
-          "id": 7,
-          "title": "Disk Space Usage",
-          "description": "",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "sum(\n  max by (device) (\n    node_filesystem_size_bytes{job=\"$job\", instance=\"$instance\", fstype!=\"\"}\n  -\n    node_filesystem_avail_bytes{job=\"$job\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "used",
-                        "range": true
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "expr": "sum(\n  max by (device) (\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
-                        "format": "time_series",
-                        "intervalFactor": 2,
-                        "legendFormat": "available"
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "12.3.2",
-            "spec": {
+              },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [],
                   "displayMode": "list",
@@ -1202,24 +1168,78 @@
                   "mode": "multi",
                   "sort": "none"
                 }
-              },
+              }
+            },
+            "version": "13.0.1+security-01"
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum(\n  max by (device) (\n    node_filesystem_size_bytes{job=\"$job\", instance=\"$instance\", fstype!=\"\"}\n  -\n    node_filesystem_avail_bytes{job=\"$job\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "used",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "sum(\n  max by (device) (\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
+                        "format": "time_series",
+                        "intervalFactor": 2,
+                        "legendFormat": "available"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 7,
+          "links": [],
+          "title": "Disk Space Usage",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "unit": "bytes",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1256,7 +1276,22 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
                 },
                 "overrides": [
                   {
@@ -1290,55 +1325,12 @@
                     ]
                   }
                 ]
-              }
-            }
-          }
-        }
-      },
-      "panel-8": {
-        "kind": "Panel",
-        "spec": {
-          "id": 8,
-          "title": "Network Received",
-          "description": "",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "$datasource"
-                      },
-                      "spec": {
-                        "expr": "rate(node_network_receive_bytes_total{job=\"node\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
-                        "format": "time_series",
-                        "interval": "1m",
-                        "intervalFactor": 2,
-                        "legendFormat": "{{device}}"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "12.3.2",
-            "spec": {
+              },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [],
                   "displayMode": "list",
@@ -1350,24 +1342,56 @@
                   "mode": "multi",
                   "sort": "none"
                 }
-              },
+              }
+            },
+            "version": "13.0.1+security-01"
+          }
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "rate(node_network_receive_bytes_total{job=\"node\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
+                        "format": "time_series",
+                        "interval": "1m",
+                        "intervalFactor": 2,
+                        "legendFormat": "{{device}}"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 8,
+          "links": [],
+          "title": "Network Received",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "unit": "bytes",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1404,21 +1428,50 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
                 },
                 "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-9": {
         "kind": "Panel",
         "spec": {
-          "id": 9,
-          "title": "Network Transmitted",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -1426,13 +1479,13 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "",
-                      "version": "v0",
                       "datasource": {
                         "name": "$datasource"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "rate(node_network_transmit_bytes_total{job=\"$job\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
@@ -1441,52 +1494,27 @@
                         "intervalFactor": 2,
                         "legendFormat": "{{device}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 9,
+          "links": [],
+          "title": "Network Transmitted",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.3.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "bytes",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1523,11 +1551,44 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
                 },
                 "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       }
@@ -1539,150 +1600,163 @@
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 0,
-              "width": 6,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-10"
-              }
+              },
+              "height": 7,
+              "width": 6,
+              "x": 0,
+              "y": 0
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 6,
-              "y": 0,
-              "width": 6,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-11"
-              }
+              },
+              "height": 7,
+              "width": 6,
+              "x": 6,
+              "y": 0
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 12,
-              "y": 0,
-              "width": 6,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-12"
-              }
+              },
+              "height": 7,
+              "width": 6,
+              "x": 12,
+              "y": 0
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 18,
-              "y": 0,
-              "width": 6,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-13"
-              }
+              },
+              "height": 7,
+              "width": 6,
+              "x": 18,
+              "y": 0
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 7,
-              "width": 12,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-2"
-              }
+              },
+              "height": 7,
+              "width": 12,
+              "x": 0,
+              "y": 7
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 12,
-              "y": 7,
-              "width": 12,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-3"
-              }
+              },
+              "height": 7,
+              "width": 12,
+              "x": 12,
+              "y": 7
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 14,
-              "width": 24,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-4"
-              }
+              },
+              "height": 7,
+              "width": 24,
+              "x": 0,
+              "y": 14
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 21,
-              "width": 12,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-6"
-              }
+              },
+              "height": 7,
+              "width": 12,
+              "x": 0,
+              "y": 21
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 12,
-              "y": 21,
-              "width": 12,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-7"
-              }
+              },
+              "height": 7,
+              "width": 12,
+              "x": 12,
+              "y": 21
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 28,
-              "width": 12,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-8"
-              }
+              },
+              "height": 7,
+              "width": 12,
+              "x": 0,
+              "y": 28
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 12,
-              "y": 28,
-              "width": 12,
-              "height": 7,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-9"
-              }
+              },
+              "height": 7,
+              "width": 12,
+              "x": 12,
+              "y": 28
             }
           }
         ]
       }
     },
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/cdf-eagles/grafana-dashboards/blob/main/Dashboards/OS/Node%20Exporter%20macOS.json"
+      }
+    ],
     "liveNow": false,
     "preload": false,
     "tags": [
@@ -1691,10 +1765,7 @@
       "macOS"
     ],
     "timeSettings": {
-      "timezone": "browser",
-      "from": "now-1h",
-      "to": "now",
-      "autoRefresh": "30s",
+      "autoRefresh": "auto",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -1707,118 +1778,124 @@
         "2h",
         "1d"
       ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-1h",
       "hideTimepicker": false,
-      "fiscalYearStartMonth": 0
+      "timezone": "browser",
+      "to": "now"
     },
     "title": "Node Exporter macOS",
     "variables": [
       {
         "kind": "DatasourceVariable",
         "spec": {
-          "name": "datasource",
-          "pluginId": "prometheus",
-          "refresh": "onDashboardLoad",
-          "regex": "",
+          "allowCustomValue": true,
           "current": {
             "text": "mimir",
             "value": "cei7lwvco16o0b"
           },
-          "options": [],
-          "multi": false,
-          "includeAll": false,
           "hide": "dontHide",
-          "skipUrlSync": false,
-          "allowCustomValue": true
+          "includeAll": false,
+          "multi": false,
+          "name": "datasource",
+          "options": [],
+          "pluginId": "prometheus",
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "skipUrlSync": false
         }
       },
       {
         "kind": "QueryVariable",
         "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "shockwave.sleem.net",
+            "value": "shockwave.sleem.net"
+          },
+          "hide": "dontHide",
+          "includeAll": false,
+          "multi": false,
           "name": "instance",
-          "current": {
-            "text": "shockwave.sleem.net",
-            "value": "shockwave.sleem.net"
-          },
-          "hide": "dontHide",
-          "refresh": "onTimeRangeChanged",
-          "skipUrlSync": false,
+          "options": [],
           "query": {
-            "kind": "DataQuery",
-            "group": "",
-            "version": "v0",
             "datasource": {
               "name": "$datasource"
             },
+            "group": "prometheus",
+            "kind": "DataQuery",
             "spec": {
               "__legacyStringValue": "label_values(node_exporter_build_info{job=\"node\"}, instance)"
-            }
+            },
+            "version": "v0"
           },
+          "refresh": "onTimeRangeChanged",
           "regex": "",
-          "sort": "disabled",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
-          "allowCustomValue": true
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "disabled"
         }
       },
       {
         "kind": "QueryVariable",
         "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "shockwave.sleem.net",
+            "value": "shockwave.sleem.net"
+          },
+          "hide": "dontHide",
+          "includeAll": false,
+          "multi": false,
           "name": "node",
-          "current": {
-            "text": "shockwave.sleem.net",
-            "value": "shockwave.sleem.net"
-          },
-          "hide": "dontHide",
-          "refresh": "onTimeRangeChanged",
-          "skipUrlSync": false,
+          "options": [],
           "query": {
-            "kind": "DataQuery",
-            "group": "",
-            "version": "v0",
             "datasource": {
               "name": "$datasource"
             },
+            "group": "prometheus",
+            "kind": "DataQuery",
             "spec": {
               "__legacyStringValue": "label_values(node_exporter_build_info{job=\"node\"}, instance)"
-            }
+            },
+            "version": "v0"
           },
+          "refresh": "onTimeRangeChanged",
           "regex": "",
-          "sort": "disabled",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
-          "allowCustomValue": true
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "disabled"
         }
       },
       {
         "kind": "QueryVariable",
         "spec": {
-          "name": "job",
+          "allowCustomValue": true,
           "current": {
             "text": "node",
             "value": "node"
           },
+          "definition": "label_values(node_uname_info,job)",
           "hide": "dontHide",
-          "refresh": "onDashboardLoad",
-          "skipUrlSync": false,
+          "includeAll": false,
+          "multi": false,
+          "name": "job",
+          "options": [],
           "query": {
-            "kind": "DataQuery",
             "group": "prometheus",
-            "version": "v0",
+            "kind": "DataQuery",
             "spec": {
               "qryType": 1,
               "query": "label_values(node_uname_info,job)",
               "refId": "PrometheusVariableQueryEditor-VariableQuery"
-            }
+            },
+            "version": "v0"
           },
+          "refresh": "onDashboardLoad",
           "regex": "",
-          "sort": "disabled",
-          "definition": "label_values(node_uname_info,job)",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
-          "allowCustomValue": true
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "disabled"
         }
       }
     ]
