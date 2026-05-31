@@ -2,50 +2,31 @@
   "apiVersion": "dashboard.grafana.app/v2",
   "kind": "Dashboard",
   "metadata": {
-    "name": "cUITC74Vk",
-    "namespace": "org-2",
-    "uid": "kawgGdXVVUp4n9Syj2XDb8IPv8L3vVcjpchRJuhcrg4X",
-    "resourceVersion": "1774391280000221",
-    "generation": 29,
-    "creationTimestamp": "2025-03-13T20:42:47Z",
-    "labels": {
-      "grafana.app/deprecatedInternalID": "3"
-    },
-    "annotations": {
-      "grafana.app/createdBy": "user:befqy9k2n3oxse",
-      "grafana.app/folder": "aefukt2sk7cowf",
-      "grafana.app/updatedBy": "user:befqy9k2n3oxse",
-      "grafana.app/updatedTimestamp": "2026-03-24T22:28:08Z",
-      "grafana.app/folderTitle": "Podman",
-      "grafana.app/folderUrl": "/dashboards/f/aefukt2sk7cowf/podman"
-    }
+    "name": "cUITC74Vk"
   },
   "spec": {
     "annotations": [
       {
         "kind": "AnnotationQuery",
         "spec": {
+          "builtIn": true,
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
           "query": {
-            "kind": "DataQuery",
-            "group": "grafana",
-            "version": "v0",
             "datasource": {
               "name": "-- Grafana --"
             },
+            "group": "grafana",
+            "kind": "DataQuery",
             "spec": {
               "limit": 100,
               "matchAny": false,
               "tags": [],
               "type": "dashboard"
-            }
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "builtIn": true,
-          "legacyOptions": {
-            "type": "dashboard"
+            },
+            "version": "v0"
           }
         }
       }
@@ -57,10 +38,6 @@
       "panel-2": {
         "kind": "Panel",
         "spec": {
-          "id": 2,
-          "title": "Pod Status",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -68,34 +45,112 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_pod_info * on(id) group_right(name) podman_pod_state)",
                         "legendFormat": "{{name}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 2,
+          "links": [],
+          "title": "Pod Status",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "stat",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "color": "orange",
+                          "index": 5,
+                          "text": "Unknown ❔"
+                        },
+                        "0": {
+                          "color": "purple",
+                          "index": 4,
+                          "text": "Created"
+                        },
+                        "1": {
+                          "color": "red",
+                          "index": 3,
+                          "text": "Error ❌"
+                        },
+                        "2": {
+                          "color": "light-red",
+                          "index": 2,
+                          "text": "Exited ❗️"
+                        },
+                        "3": {
+                          "color": "light-yellow",
+                          "index": 1,
+                          "text": "Paused ⏸"
+                        },
+                        "4": {
+                          "color": "light-green",
+                          "index": 0,
+                          "text": "Running"
+                        },
+                        "5": {
+                          "color": "#808080",
+                          "index": 6,
+                          "text": "Degraded"
+                        },
+                        "6": {
+                          "color": "super-light-red",
+                          "index": 7,
+                          "text": "Stopped"
+                        }
+                      },
+                      "type": "value"
+                    },
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "color": "text",
+                          "index": 8,
+                          "text": "No value "
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
               "options": {
                 "colorMode": "value",
                 "graphMode": "none",
@@ -112,93 +167,15 @@
                 "showPercentChange": false,
                 "textMode": "auto",
                 "wideLayout": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Created",
-                          "color": "purple",
-                          "index": 4
-                        },
-                        "1": {
-                          "text": "Error ❌",
-                          "color": "red",
-                          "index": 3
-                        },
-                        "2": {
-                          "text": "Exited ❗️",
-                          "color": "light-red",
-                          "index": 2
-                        },
-                        "3": {
-                          "text": "Paused ⏸",
-                          "color": "light-yellow",
-                          "index": 1
-                        },
-                        "4": {
-                          "text": "Running",
-                          "color": "light-green",
-                          "index": 0
-                        },
-                        "5": {
-                          "text": "Degraded",
-                          "color": "#808080",
-                          "index": 6
-                        },
-                        "6": {
-                          "text": "Stopped",
-                          "color": "super-light-red",
-                          "index": 7
-                        },
-                        "-1": {
-                          "text": "Unknown ❔",
-                          "color": "orange",
-                          "index": 5
-                        }
-                      }
-                    },
-                    {
-                      "type": "special",
-                      "options": {
-                        "match": "null",
-                        "result": {
-                          "text": "No value ",
-                          "color": "text",
-                          "index": 8
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  }
-                },
-                "overrides": []
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-3": {
         "kind": "Panel",
         "spec": {
-          "id": 3,
-          "title": "Pod Uptime",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -206,111 +183,42 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_pod_info * on(id) group_right(name) podman_pod_state)",
                         "legendFormat": "{{name}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 3,
+          "links": [],
+          "title": "Pod Uptime",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "none",
-                  "decimals": 0,
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Created",
-                          "color": "purple",
-                          "index": 4
-                        },
-                        "1": {
-                          "text": "Error",
-                          "color": "red",
-                          "index": 3
-                        },
-                        "2": {
-                          "text": "Exited",
-                          "color": "light-red",
-                          "index": 2
-                        },
-                        "3": {
-                          "text": "Paused",
-                          "color": "light-yellow",
-                          "index": 1
-                        },
-                        "4": {
-                          "text": "Running",
-                          "color": "light-green",
-                          "index": 0
-                        },
-                        "5": {
-                          "text": "Degraded",
-                          "color": "#808080",
-                          "index": 6
-                        },
-                        "6": {
-                          "text": "Stopped",
-                          "color": "super-light-red",
-                          "index": 7
-                        },
-                        "-1": {
-                          "text": "Unknown",
-                          "color": "orange",
-                          "index": 5
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "-1",
                   "custom": {
                     "axisBorderShow": false,
                     "axisCenteredZero": false,
@@ -350,21 +258,90 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "color": "orange",
+                          "index": 5,
+                          "text": "Unknown"
+                        },
+                        "0": {
+                          "color": "purple",
+                          "index": 4,
+                          "text": "Created"
+                        },
+                        "1": {
+                          "color": "red",
+                          "index": 3,
+                          "text": "Error"
+                        },
+                        "2": {
+                          "color": "light-red",
+                          "index": 2,
+                          "text": "Exited"
+                        },
+                        "3": {
+                          "color": "light-yellow",
+                          "index": 1,
+                          "text": "Paused"
+                        },
+                        "4": {
+                          "color": "light-green",
+                          "index": 0,
+                          "text": "Running"
+                        },
+                        "5": {
+                          "color": "#808080",
+                          "index": 6,
+                          "text": "Degraded"
+                        },
+                        "6": {
+                          "color": "super-light-red",
+                          "index": 7,
+                          "text": "Stopped"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "noValue": "-1",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "none"
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "12.4.1"
           }
         }
       },
       "panel-4": {
         "kind": "Panel",
         "spec": {
-          "id": 4,
-          "title": "Memory usage",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -372,110 +349,42 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_container_info{name!~\".+infra\"} * on(id) group_right(name) podman_container_mem_usage_bytes / 1024 /1024)",
                         "legendFormat": "{{name}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 4,
+          "links": [],
+          "title": "Memory usage",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "decmbytes",
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Created",
-                          "color": "purple",
-                          "index": 4
-                        },
-                        "1": {
-                          "text": "Error",
-                          "color": "red",
-                          "index": 3
-                        },
-                        "2": {
-                          "text": "Exited",
-                          "color": "light-red",
-                          "index": 2
-                        },
-                        "3": {
-                          "text": "Paused",
-                          "color": "light-yellow",
-                          "index": 1
-                        },
-                        "4": {
-                          "text": "Running",
-                          "color": "light-green",
-                          "index": 0
-                        },
-                        "5": {
-                          "text": "Degraded",
-                          "color": "#808080",
-                          "index": 6
-                        },
-                        "6": {
-                          "text": "Stopped",
-                          "color": "super-light-red",
-                          "index": 7
-                        },
-                        "-1": {
-                          "text": "Unkown",
-                          "color": "orange",
-                          "index": 5
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "0",
                   "custom": {
                     "axisBorderShow": false,
                     "axisCenteredZero": false,
@@ -509,21 +418,89 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "color": "orange",
+                          "index": 5,
+                          "text": "Unkown"
+                        },
+                        "0": {
+                          "color": "purple",
+                          "index": 4,
+                          "text": "Created"
+                        },
+                        "1": {
+                          "color": "red",
+                          "index": 3,
+                          "text": "Error"
+                        },
+                        "2": {
+                          "color": "light-red",
+                          "index": 2,
+                          "text": "Exited"
+                        },
+                        "3": {
+                          "color": "light-yellow",
+                          "index": 1,
+                          "text": "Paused"
+                        },
+                        "4": {
+                          "color": "light-green",
+                          "index": 0,
+                          "text": "Running"
+                        },
+                        "5": {
+                          "color": "#808080",
+                          "index": 6,
+                          "text": "Degraded"
+                        },
+                        "6": {
+                          "color": "super-light-red",
+                          "index": 7,
+                          "text": "Stopped"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "noValue": "0",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "decmbytes"
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "12.4.1"
           }
         }
       },
       "panel-5": {
         "kind": "Panel",
         "spec": {
-          "id": 5,
-          "title": "Network input",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -531,62 +508,42 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_container_info{name!~\".+infra\"} * on(id) group_right(name) rate(podman_container_net_input_total[1m]) / 1024)",
                         "legendFormat": "{{name}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 5,
+          "links": [],
+          "title": "Network input",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "0",
                   "custom": {
                     "axisBorderShow": false,
                     "axisCenteredZero": false,
@@ -620,21 +577,41 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
+                  },
+                  "noValue": "0",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
                   }
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "12.4.1"
           }
         }
       },
       "panel-6": {
         "kind": "Panel",
         "spec": {
-          "id": 6,
-          "title": "Network Output",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -642,62 +619,42 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_container_info{name!~\".+infra\"} * on(id) group_right(name) rate(podman_container_net_output_total[1m]) / 1024)",
                         "legendFormat": "{{name}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 6,
+          "links": [],
+          "title": "Network Output",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "0",
                   "custom": {
                     "axisBorderShow": false,
                     "axisCenteredZero": false,
@@ -731,21 +688,41 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
+                  },
+                  "noValue": "0",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
                   }
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "12.4.1"
           }
         }
       },
       "panel-7": {
         "kind": "Panel",
         "spec": {
-          "id": 7,
-          "title": "CPU",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -753,109 +730,42 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_container_info{name!~\".+infra\"} * on(id) group_right(name) rate(podman_container_cpu_seconds_total[1m]))",
                         "legendFormat": "{{name}}",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 7,
+          "links": [],
+          "title": "CPU",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Created",
-                          "color": "purple",
-                          "index": 4
-                        },
-                        "1": {
-                          "text": "Error",
-                          "color": "red",
-                          "index": 3
-                        },
-                        "2": {
-                          "text": "Exited",
-                          "color": "light-red",
-                          "index": 2
-                        },
-                        "3": {
-                          "text": "Paused",
-                          "color": "light-yellow",
-                          "index": 1
-                        },
-                        "4": {
-                          "text": "Running",
-                          "color": "light-green",
-                          "index": 0
-                        },
-                        "5": {
-                          "text": "Degraded",
-                          "color": "#808080",
-                          "index": 6
-                        },
-                        "6": {
-                          "text": "Stopped",
-                          "color": "super-light-red",
-                          "index": 7
-                        },
-                        "-1": {
-                          "text": "Unkown",
-                          "color": "orange",
-                          "index": 5
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "0",
                   "custom": {
                     "axisBorderShow": false,
                     "axisCenteredZero": false,
@@ -889,21 +799,88 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "color": "orange",
+                          "index": 5,
+                          "text": "Unkown"
+                        },
+                        "0": {
+                          "color": "purple",
+                          "index": 4,
+                          "text": "Created"
+                        },
+                        "1": {
+                          "color": "red",
+                          "index": 3,
+                          "text": "Error"
+                        },
+                        "2": {
+                          "color": "light-red",
+                          "index": 2,
+                          "text": "Exited"
+                        },
+                        "3": {
+                          "color": "light-yellow",
+                          "index": 1,
+                          "text": "Paused"
+                        },
+                        "4": {
+                          "color": "light-green",
+                          "index": 0,
+                          "text": "Running"
+                        },
+                        "5": {
+                          "color": "#808080",
+                          "index": 6,
+                          "text": "Degraded"
+                        },
+                        "6": {
+                          "color": "super-light-red",
+                          "index": 7,
+                          "text": "Stopped"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "noValue": "0",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
                   }
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "12.4.1"
           }
         }
       },
       "panel-8": {
         "kind": "Panel",
         "spec": {
-          "id": 8,
-          "title": "Container Status",
-          "description": "Container Status",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -911,34 +888,81 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) ((podman_container_info{name!~\".+-infra\"} and podman_container_info{name!~\".+_pascal\"}) * on(id) group_right (name) podman_container_health)",
                         "legendFormat": "__auto",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Container Status",
+          "id": 8,
+          "links": [],
+          "title": "Container Status",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "stat",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "color": "purple",
+                          "index": 0,
+                          "text": "Unknown"
+                        },
+                        "0": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "Healthy"
+                        },
+                        "1": {
+                          "color": "red",
+                          "index": 2,
+                          "text": "Unhealthy"
+                        },
+                        "2": {
+                          "color": "yellow",
+                          "index": 3,
+                          "text": "Starting"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
               "options": {
                 "colorMode": "background",
                 "graphMode": "none",
@@ -959,62 +983,15 @@
                 },
                 "textMode": "auto",
                 "wideLayout": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Healthy",
-                          "color": "green",
-                          "index": 1
-                        },
-                        "1": {
-                          "text": "Unhealthy",
-                          "color": "red",
-                          "index": 2
-                        },
-                        "2": {
-                          "text": "Starting",
-                          "color": "yellow",
-                          "index": 3
-                        },
-                        "-1": {
-                          "text": "Unknown",
-                          "color": "purple",
-                          "index": 0
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  }
-                },
-                "overrides": []
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       },
       "panel-9": {
         "kind": "Panel",
         "spec": {
-          "id": 9,
-          "title": "Container Uptime",
-          "description": "Container Uptime",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -1022,118 +999,42 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "cei7lwvco16o0b"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by(name) (podman_container_info{name!~\".+-infra\"} * on(id) group_right(name) podman_container_state)",
                         "legendFormat": "__auto",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Container Uptime",
+          "id": 9,
+          "links": [],
+          "title": "Container Uptime",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "12.4.1",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [
-                    "last"
-                  ],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "none",
-                  "decimals": 0,
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Created",
-                          "color": "semi-dark-blue",
-                          "index": 1
-                        },
-                        "1": {
-                          "text": "Initialized",
-                          "color": "light-blue",
-                          "index": 2
-                        },
-                        "2": {
-                          "text": "Running",
-                          "color": "green",
-                          "index": 3
-                        },
-                        "3": {
-                          "text": "Stopped",
-                          "color": "light-red",
-                          "index": 4
-                        },
-                        "4": {
-                          "text": "Paused",
-                          "color": "yellow",
-                          "index": 5
-                        },
-                        "5": {
-                          "text": "Exited",
-                          "color": "dark-red",
-                          "index": 6
-                        },
-                        "6": {
-                          "text": "Removing",
-                          "color": "#808080",
-                          "index": 7
-                        },
-                        "7": {
-                          "text": "Stopping",
-                          "color": "super-light-red",
-                          "index": 8
-                        },
-                        "-1": {
-                          "text": "Unknown",
-                          "color": "orange",
-                          "index": 0
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "-1",
                   "custom": {
                     "axisBorderShow": false,
                     "axisCenteredZero": false,
@@ -1167,11 +1068,95 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
-                  }
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "color": "orange",
+                          "index": 0,
+                          "text": "Unknown"
+                        },
+                        "0": {
+                          "color": "semi-dark-blue",
+                          "index": 1,
+                          "text": "Created"
+                        },
+                        "1": {
+                          "color": "light-blue",
+                          "index": 2,
+                          "text": "Initialized"
+                        },
+                        "2": {
+                          "color": "green",
+                          "index": 3,
+                          "text": "Running"
+                        },
+                        "3": {
+                          "color": "light-red",
+                          "index": 4,
+                          "text": "Stopped"
+                        },
+                        "4": {
+                          "color": "yellow",
+                          "index": 5,
+                          "text": "Paused"
+                        },
+                        "5": {
+                          "color": "dark-red",
+                          "index": 6,
+                          "text": "Exited"
+                        },
+                        "6": {
+                          "color": "#808080",
+                          "index": 7,
+                          "text": "Removing"
+                        },
+                        "7": {
+                          "color": "super-light-red",
+                          "index": 8,
+                          "text": "Stopping"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "noValue": "-1",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "none"
                 },
                 "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [
+                    "last"
+                  ],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.0.1+security-01"
           }
         }
       }
@@ -1183,121 +1168,131 @@
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 0,
-              "width": 24,
-              "height": 12,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-8"
-              }
+              },
+              "height": 12,
+              "width": 24,
+              "x": 0,
+              "y": 0
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 12,
-              "width": 24,
-              "height": 13,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-9"
-              }
+              },
+              "height": 13,
+              "width": 24,
+              "x": 0,
+              "y": 12
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 25,
-              "width": 24,
-              "height": 12,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-2"
-              }
+              },
+              "height": 12,
+              "width": 24,
+              "x": 0,
+              "y": 25
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 37,
-              "width": 24,
-              "height": 11,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-3"
-              }
+              },
+              "height": 11,
+              "width": 24,
+              "x": 0,
+              "y": 37
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 48,
-              "width": 12,
-              "height": 11,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-4"
-              }
+              },
+              "height": 11,
+              "width": 12,
+              "x": 0,
+              "y": 48
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 12,
-              "y": 48,
-              "width": 12,
-              "height": 11,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-7"
-              }
+              },
+              "height": 11,
+              "width": 12,
+              "x": 12,
+              "y": 48
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 0,
-              "y": 59,
-              "width": 12,
-              "height": 10,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-6"
-              }
+              },
+              "height": 10,
+              "width": 12,
+              "x": 0,
+              "y": 59
             }
           },
           {
             "kind": "GridLayoutItem",
             "spec": {
-              "x": 12,
-              "y": 59,
-              "width": 12,
-              "height": 10,
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-5"
-              }
+              },
+              "height": 10,
+              "width": 12,
+              "x": 12,
+              "y": 59
             }
           }
         ]
       }
     },
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/cdf-eagles/grafana-dashboards/blob/main/Dashboards/OS/Podman/Podman%20State.json"
+      }
+    ],
     "liveNow": false,
     "preload": false,
     "tags": [
       "podman"
     ],
     "timeSettings": {
-      "timezone": "browser",
-      "from": "now-1h",
-      "to": "now",
-      "autoRefresh": "",
+      "autoRefresh": "auto",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -1310,8 +1305,11 @@
         "2h",
         "1d"
       ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-1h",
       "hideTimepicker": false,
-      "fiscalYearStartMonth": 0
+      "timezone": "browser",
+      "to": "now"
     },
     "title": "Podman State",
     "variables": []
