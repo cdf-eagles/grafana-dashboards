@@ -3076,13 +3076,17 @@
                       "type": "auto"
                     },
                     "filterable": false,
+                    "footer": {
+                      "reducers": []
+                    },
                     "inspect": false
                   },
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
                       {
-                        "color": "text"
+                        "color": "text",
+                        "value": 0
                       }
                     ]
                   }
@@ -3158,14 +3162,6 @@
               },
               "options": {
                 "cellHeight": "sm",
-                "footer": {
-                  "countRows": false,
-                  "fields": "",
-                  "reducer": [
-                    "sum"
-                  ],
-                  "show": false
-                },
                 "showHeader": true,
                 "sortBy": [
                   {
@@ -3175,7 +3171,7 @@
                 ]
               }
             },
-            "version": "11.2.0"
+            "version": "13.1.2"
           }
         }
       },
@@ -3307,10 +3303,30 @@
                     "mode": "palette-classic"
                   },
                   "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
                     "drawStyle": "line",
                     "fillOpacity": 35,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
                     "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
                     "showPoints": "never",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -3326,7 +3342,8 @@
                     "mode": "absolute",
                     "steps": [
                       {
-                        "color": "transparent"
+                        "color": "transparent",
+                        "value": 0
                       }
                     ]
                   },
@@ -3335,19 +3352,26 @@
                 "overrides": []
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
                 "tooltip": {
+                  "hideZeros": false,
                   "mode": "multi",
                   "sort": "desc"
                 }
               }
             },
-            "version": "11.2.0"
+            "version": "13.1.2"
           }
         }
       },
@@ -3418,7 +3442,8 @@
                     "mode": "absolute",
                     "steps": [
                       {
-                        "color": "#6E7B8B"
+                        "color": "#6E7B8B",
+                        "value": 0
                       }
                     ]
                   },
@@ -3431,6 +3456,7 @@
                 "graphMode": "none",
                 "justifyMode": "center",
                 "orientation": "auto",
+                "percentChangeColorMode": "standard",
                 "reduceOptions": {
                   "calcs": [
                     "lastNotNull"
@@ -3438,6 +3464,7 @@
                   "fields": "",
                   "values": false
                 },
+                "showPercentChange": false,
                 "text": {
                   "valueSize": 24
                 },
@@ -3445,7 +3472,7 @@
                 "wideLayout": false
               }
             },
-            "version": "11.2.0"
+            "version": "13.1.2"
           }
         }
       },
@@ -5298,7 +5325,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -5561,7 +5588,7 @@
       "hardware"
     ],
     "timeSettings": {
-      "autoRefresh": "10s",
+      "autoRefresh": "auto",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -5575,7 +5602,7 @@
         "1d"
       ],
       "fiscalYearStartMonth": 0,
-      "from": "now-30m",
+      "from": "now-1h",
       "hideTimepicker": false,
       "timezone": "browser",
       "to": "now"
