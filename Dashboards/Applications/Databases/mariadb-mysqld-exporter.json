@@ -2537,8 +2537,8 @@
         "spec": {
           "allowCustomValue": true,
           "current": {
-            "text": "",
-            "value": ""
+            "text": "mimir",
+            "value": "cei7lwvco16o0b"
           },
           "hide": "dontHide",
           "includeAll": false,
