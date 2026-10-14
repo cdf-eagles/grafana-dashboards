@@ -1,764 +1,1069 @@
 {
-  "apiVersion": "dashboard.grafana.app/v1",
+  "apiVersion": "dashboard.grafana.app/v2",
   "kind": "Dashboard",
   "metadata": {
     "name": "deg17uvty4wrnkf"
   },
   "spec": {
-    "description": "Example dashboard for zpool-status-exporter: pools, vdevs, I/O, ARC, SMART, and datasets.",
-    "editable": true,
-    "graphTooltip": 1,
-    "links": [
+    "annotations": [
       {
-        "targetBlank": true,
-        "title": "zpool-status-exporter",
-        "type": "link",
-        "url": "https://github.com/cdf-eagles/zpool-status-exporter"
+        "kind": "AnnotationQuery",
+        "spec": {
+          "builtIn": true,
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {},
+            "version": "v0"
+          }
+        }
       }
     ],
-    "panels": [
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 1,
-        "panels": [],
-        "title": "Pools",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "Pools whose state is anything other than ONLINE.",
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+    "cursorSync": "Crosshair",
+    "description": "Example dashboard for zpool-status-exporter: pools, vdevs, I/O, ARC, SMART, and datasets.",
+    "editable": true,
+    "elements": {
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
                 {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 1
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 4,
-          "x": 0,
-          "y": 1
-        },
-        "id": 2,
-        "options": {
-          "colorMode": "background",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "count(zfs_pool_state{instance=~\"$instance\", pool=~\"$pool\", state=\"ONLINE\"} == 0) or vector(0)",
-            "instant": true,
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Pools not ONLINE",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "Read, write, and checksum errors on every vdev since the last zpool clear.",
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 1
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 4,
-          "x": 4,
-          "y": 1
-        },
-        "id": 3,
-        "options": {
-          "colorMode": "background",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "sum(zfs_vdev_read_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_write_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_checksum_errors{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
-            "instant": true,
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "vdev errors",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 1
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 4,
-          "x": 8,
-          "y": 1
-        },
-        "id": 4,
-        "options": {
-          "colorMode": "background",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "sum(zfs_pool_data_errors{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
-            "instant": true,
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Data errors",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "Pools for which zpool status prints a status message.",
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 1
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 4,
-          "x": 12,
-          "y": 1
-        },
-        "id": 5,
-        "options": {
-          "colorMode": "background",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "sum(zfs_pool_needs_attention{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
-            "instant": true,
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Pools needing attention",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "decimals": 1,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 31
-                },
-                {
-                  "color": "red",
-                  "value": 45
-                }
-              ]
-            },
-            "unit": "d"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 8,
-          "x": 16,
-          "y": 1
-        },
-        "id": 6,
-        "options": {
-          "colorMode": "value",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          },
-          "textMode": "value_and_name"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "(time() - zfs_pool_scan_end_time_seconds{instance=~\"$instance\", pool=~\"$pool\"}) / 86400",
-            "instant": true,
-            "legendFormat": "{{instance}} {{pool}}",
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Days since last scrub",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "max": 1,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 0.8
-                },
-                {
-                  "color": "red",
-                  "value": 0.9
-                }
-              ]
-            },
-            "unit": "percentunit"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 8,
-          "x": 0,
-          "y": 5
-        },
-        "id": 7,
-        "options": {
-          "displayMode": "gradient",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_pool_capacity_ratio{instance=~\"$instance\", pool=~\"$pool\"}",
-            "instant": true,
-            "legendFormat": "{{instance}} {{pool}}",
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Capacity",
-        "type": "bargauge"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "max": 1,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 0.5
-                },
-                {
-                  "color": "red",
-                  "value": 0.7
-                }
-              ]
-            },
-            "unit": "percentunit"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 8,
-          "x": 8,
-          "y": 5
-        },
-        "id": 8,
-        "options": {
-          "displayMode": "gradient",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_pool_fragmentation_ratio{instance=~\"$instance\", pool=~\"$pool\"}",
-            "instant": true,
-            "legendFormat": "{{instance}} {{pool}}",
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Fragmentation",
-        "type": "bargauge"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "bytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 8,
-          "x": 16,
-          "y": 5
-        },
-        "id": 9,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_pool_allocated_bytes{instance=~\"$instance\", pool=~\"$pool\"}",
-            "legendFormat": "{{instance}} {{pool}}",
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "Allocated space",
-        "type": "timeseries"
-      },
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 12
-        },
-        "id": 10,
-        "panels": [],
-        "title": "Pool I/O",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "Reads above the axis, writes below.",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 8,
-          "x": 0,
-          "y": 13
-        },
-        "id": 11,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_pool_read_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
-            "legendFormat": "{{instance}} {{pool}} read",
-            "range": true,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "-zfs_pool_write_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
-            "legendFormat": "{{instance}} {{pool}} write",
-            "range": true,
-            "refId": "B"
-          }
-        ],
-        "title": "Bandwidth",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "Reads above the axis, writes below.",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "iops"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 8,
-          "x": 8,
-          "y": 13
-        },
-        "id": 12,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_pool_read_operations_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
-            "legendFormat": "{{instance}} {{pool}} read",
-            "range": true,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "-zfs_pool_write_operations_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
-            "legendFormat": "{{instance}} {{pool}} write",
-            "range": true,
-            "refId": "B"
-          }
-        ],
-        "title": "Operations",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "Average total wait per I/O over each 10-second sample.",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "s"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 8,
-          "x": 16,
-          "y": 13
-        },
-        "id": 13,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_pool_latency_seconds{instance=~\"$instance\", pool=~\"$pool\", queue=\"total\"}",
-            "legendFormat": "{{instance}} {{pool}} {{op}}",
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "Total wait (latency)",
-        "type": "timeseries"
-      },
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 21
-        },
-        "id": 14,
-        "panels": [],
-        "title": "Virtual devices",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "One row per vdev. The disk column joins to the SMART panels.",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "state"
-              },
-              "properties": [
-                {
-                  "id": "custom.cellOptions",
-                  "value": {
-                    "type": "color-text"
-                  }
-                },
-                {
-                  "id": "mappings",
-                  "value": [
-                    {
-                      "options": {
-                        "ONLINE": {
-                          "color": "green",
-                          "index": 0
-                        }
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
                       },
-                      "type": "value"
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_pool_read_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "legendFormat": "{{instance}} {{pool}} read",
+                        "range": true
+                      },
+                      "version": "v0"
                     },
-                    {
-                      "options": {
-                        "pattern": "^(?!ONLINE$).*",
-                        "result": {
-                          "color": "red",
-                          "index": 1
-                        }
-                      },
-                      "type": "regex"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "errors"
-              },
-              "properties": [
-                {
-                  "id": "custom.cellOptions",
-                  "value": {
-                    "type": "color-background"
+                    "refId": "A"
                   }
                 },
                 {
-                  "id": "thresholds",
-                  "value": {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "-zfs_pool_write_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "legendFormat": "{{instance}} {{pool}} write",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Reads above the axis, writes below.",
+          "id": 11,
+          "links": [],
+          "title": "Bandwidth",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
                     "mode": "absolute",
                     "steps": [
                       {
-                        "color": "transparent",
-                        "value": null
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_pool_read_operations_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "legendFormat": "{{instance}} {{pool}} read",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "-zfs_pool_write_operations_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "legendFormat": "{{instance}} {{pool}} write",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Reads above the axis, writes below.",
+          "id": 12,
+          "links": [],
+          "title": "Operations",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "iops"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-13": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_pool_latency_seconds{instance=~\"$instance\", pool=~\"$pool\", queue=\"total\"}",
+                        "legendFormat": "{{instance}} {{pool}} {{op}}",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Average total wait per I/O over each 10-second sample.",
+          "id": 13,
+          "links": [],
+          "title": "Total wait (latency)",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "s"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_vdev_state{instance=~\"$instance\", pool=~\"$pool\"} == 1",
+                        "format": "table",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_vdev_read_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_write_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_checksum_errors{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "format": "table",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "merge",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {}
+                  }
+                },
+                {
+                  "group": "organize",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "excludeByName": {
+                        "Time": true,
+                        "Value #A": true,
+                        "__name__": true,
+                        "job": true
+                      },
+                      "indexByName": {
+                        "Value #B": 8,
+                        "class": 2,
+                        "device": 5,
+                        "disk": 6,
+                        "instance": 0,
+                        "pool": 1,
+                        "state": 7,
+                        "vdev": 4,
+                        "vdev_type": 3
+                      },
+                      "renameByName": {
+                        "Value #B": "errors"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "One row per vdev. The disk column joins to the SMART panels.",
+          "id": 15,
+          "links": [],
+          "title": "vdev state and errors",
+          "vizConfig": {
+            "group": "table",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "state"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.cellOptions",
+                        "value": {
+                          "type": "color-text"
+                        }
+                      },
+                      {
+                        "id": "mappings",
+                        "value": [
+                          {
+                            "options": {
+                              "ONLINE": {
+                                "color": "green",
+                                "index": 0
+                              }
+                            },
+                            "type": "value"
+                          },
+                          {
+                            "options": {
+                              "pattern": "^(?!ONLINE$).*",
+                              "result": {
+                                "color": "red",
+                                "index": 1
+                              }
+                            },
+                            "type": "regex"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "errors"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.cellOptions",
+                        "value": {
+                          "type": "color-background"
+                        }
+                      },
+                      {
+                        "id": "thresholds",
+                        "value": {
+                          "mode": "absolute",
+                          "steps": [
+                            {
+                              "color": "transparent",
+                              "value": 0
+                            },
+                            {
+                              "color": "red",
+                              "value": 1
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "cellHeight": "sm",
+                "showHeader": true
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-16": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "topk(10, zfs_vdev_read_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\", vdev_type=\"disk\"} + zfs_vdev_write_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\", vdev_type=\"disk\"})",
+                        "legendFormat": "{{instance}} {{pool}} {{vdev}} ({{disk}})",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 16,
+          "links": [],
+          "title": "Busiest leaf vdevs (bandwidth)",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max"
+                  ],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_arc_size{instance=~\"$instance\"}",
+                        "legendFormat": "{{instance}} size",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_arc_c{instance=~\"$instance\"}",
+                        "legendFormat": "{{instance}} target",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_arc_c_max{instance=~\"$instance\"}",
+                        "legendFormat": "{{instance}} maximum",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 18,
+          "links": [],
+          "title": "ARC size",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "rate(zfs_arc_hits{instance=~\"$instance\"}[$__rate_interval]) / (rate(zfs_arc_hits{instance=~\"$instance\"}[$__rate_interval]) + rate(zfs_arc_misses{instance=~\"$instance\"}[$__rate_interval]))",
+                        "legendFormat": "{{instance}} hit ratio",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 19,
+          "links": [],
+          "title": "ARC hit ratio",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "max": 1,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "percentunit"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "count(zfs_pool_state{instance=~\"$instance\", pool=~\"$pool\", state=\"ONLINE\"} == 0) or vector(0)",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Pools whose state is anything other than ONLINE.",
+          "id": 2,
+          "links": [],
+          "title": "Pools not ONLINE",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -766,820 +1071,1956 @@
                       }
                     ]
                   }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 10,
-          "w": 14,
-          "x": 0,
-          "y": 22
-        },
-        "id": 15,
-        "options": {},
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_vdev_state{instance=~\"$instance\", pool=~\"$pool\"} == 1",
-            "format": "table",
-            "instant": true,
-            "range": false,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_vdev_read_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_write_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_checksum_errors{instance=~\"$instance\", pool=~\"$pool\"}",
-            "format": "table",
-            "instant": true,
-            "range": false,
-            "refId": "B"
-          }
-        ],
-        "title": "vdev state and errors",
-        "transformations": [
-          {
-            "id": "merge",
-            "options": {}
-          },
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {
-                "Time": true,
-                "Value #A": true,
-                "__name__": true,
-                "job": true
+                },
+                "overrides": []
               },
-              "indexByName": {
-                "Value #B": 8,
-                "class": 2,
-                "device": 5,
-                "disk": 6,
-                "instance": 0,
-                "pool": 1,
-                "state": 7,
-                "vdev": 4,
-                "vdev_type": 3
-              },
-              "renameByName": {
-                "Value #B": "errors"
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
               }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_smart_temperature_celsius{instance=~\"$instance\"} * on (instance, device) group_left (disk, model) zfs_smart_device_info{instance=~\"$instance\"}",
+                        "legendFormat": "{{instance}} {{disk}} ({{model}})",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
             }
-          }
-        ],
-        "type": "table"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 10,
-          "w": 10,
-          "x": 14,
-          "y": 22
-        },
-        "id": 16,
-        "options": {
-          "legend": {
-            "calcs": [
-              "lastNotNull",
-              "max"
-            ],
-            "displayMode": "table",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "topk(10, zfs_vdev_read_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\", vdev_type=\"disk\"} + zfs_vdev_write_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\", vdev_type=\"disk\"})",
-            "legendFormat": "{{instance}} {{pool}} {{vdev}} ({{disk}})",
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "Busiest leaf vdevs (bandwidth)",
-        "type": "timeseries"
-      },
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 32
-        },
-        "id": 17,
-        "panels": [],
-        "title": "Adaptive Replacement Cache (ARC)",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "bytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 33
-        },
-        "id": 18,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_arc_size{instance=~\"$instance\"}",
-            "legendFormat": "{{instance}} size",
-            "range": true,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_arc_c{instance=~\"$instance\"}",
-            "legendFormat": "{{instance}} target",
-            "range": true,
-            "refId": "B"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_arc_c_max{instance=~\"$instance\"}",
-            "legendFormat": "{{instance}} maximum",
-            "range": true,
-            "refId": "C"
-          }
-        ],
-        "title": "ARC size",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "max": 1,
-            "min": 0,
-            "unit": "percentunit"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 33
-        },
-        "id": 19,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "rate(zfs_arc_hits{instance=~\"$instance\"}[$__rate_interval]) / (rate(zfs_arc_hits{instance=~\"$instance\"}[$__rate_interval]) + rate(zfs_arc_misses{instance=~\"$instance\"}[$__rate_interval]))",
-            "legendFormat": "{{instance}} hit ratio",
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "ARC hit ratio",
-        "type": "timeseries"
-      },
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 41
-        },
-        "id": 20,
-        "panels": [],
-        "title": "Self-Monitoring, Analysis and Reporting Technology (SMART)",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
+          "description": "",
+          "id": 21,
+          "links": [],
+          "title": "Disk temperature",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 50
+                      },
+                      {
+                        "color": "red",
+                        "value": 60
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
                 },
-                {
-                  "color": "orange",
-                  "value": 50
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max"
+                  ],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
                 },
-                {
-                  "color": "red",
-                  "value": 60
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
                 }
-              ]
+              }
             },
-            "unit": "celsius"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 42
-        },
-        "id": 21,
-        "options": {
-          "legend": {
-            "calcs": [
-              "lastNotNull",
-              "max"
-            ],
-            "displayMode": "table",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
+            "version": "13.2.4"
           }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_smart_temperature_celsius{instance=~\"$instance\"} * on (instance, device) group_left (disk, model) zfs_smart_device_info{instance=~\"$instance\"}",
-            "legendFormat": "{{instance}} {{disk}} ({{model}})",
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "Disk temperature",
-        "type": "timeseries"
+        }
       },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "description": "healthy: SMART overall self-assessment. error log: entries in the device error log.",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "power on"
-              },
-              "properties": [
+      "panel-22": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
                 {
-                  "id": "unit",
-                  "value": "s"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "healthy"
-              },
-              "properties": [
-                {
-                  "id": "custom.cellOptions",
-                  "value": {
-                    "type": "color-background"
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_smart_healthy{instance=~\"$instance\"} * on (instance, device) group_left (disk, model) zfs_smart_device_info{instance=~\"$instance\"}",
+                        "format": "table",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
                   }
                 },
                 {
-                  "id": "mappings",
-                  "value": [
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_smart_error_log_entries{instance=~\"$instance\"}",
+                        "format": "table",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_smart_power_on_seconds{instance=~\"$instance\"}",
+                        "format": "table",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_smart_device_standby{instance=~\"$instance\"}",
+                        "format": "table",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "merge",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {}
+                  }
+                },
+                {
+                  "group": "organize",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "excludeByName": {
+                        "Time": true,
+                        "__name__": true,
+                        "job": true
+                      },
+                      "indexByName": {
+                        "Value #A": 4,
+                        "Value #B": 5,
+                        "Value #C": 6,
+                        "Value #D": 7,
+                        "device": 2,
+                        "disk": 1,
+                        "instance": 0,
+                        "model": 3
+                      },
+                      "renameByName": {
+                        "Value #A": "healthy",
+                        "Value #B": "error log",
+                        "Value #C": "power on",
+                        "Value #D": "standby"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "healthy: SMART overall self-assessment. error log: entries in the device error log.",
+          "id": 22,
+          "links": [],
+          "title": "Disk health",
+          "vizConfig": {
+            "group": "table",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "power on"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "s"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "healthy"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.cellOptions",
+                        "value": {
+                          "type": "color-background"
+                        }
+                      },
+                      {
+                        "id": "mappings",
+                        "value": [
+                          {
+                            "options": {
+                              "0": {
+                                "color": "red",
+                                "index": 0,
+                                "text": "FAILING"
+                              },
+                              "1": {
+                                "color": "green",
+                                "index": 1,
+                                "text": "passed"
+                              }
+                            },
+                            "type": "value"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "cellHeight": "sm",
+                "showHeader": true
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "topk(15, zfs_dataset_used_bytes{instance=~\"$instance\", pool=~\"$pool\"})",
+                        "instant": true,
+                        "legendFormat": "{{instance}} {{dataset}}",
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 24,
+          "links": [],
+          "title": "Largest datasets",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
+                },
+                "overrides": []
+              },
+              "options": {
+                "displayMode": "basic",
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "maxVizHeight": 300,
+                "minVizHeight": 16,
+                "minVizWidth": 8,
+                "namePlacement": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showUnfilled": true,
+                "sizing": "auto",
+                "valueMode": "color"
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "topk(10, rate(zfs_dataset_written_bytes_total{instance=~\"$instance\", pool=~\"$pool\"}[$__rate_interval]))",
+                        "legendFormat": "{{instance}} {{dataset}}",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 25,
+          "links": [],
+          "title": "Busiest datasets (writes)",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max"
+                  ],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_exporter_collector_up{instance=~\"$instance\"}",
+                        "instant": true,
+                        "legendFormat": "{{instance}} {{collector}}",
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 27,
+          "links": [],
+          "title": "Collectors up",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "mappings": [
                     {
                       "options": {
                         "0": {
                           "color": "red",
-                          "index": 0,
-                          "text": "FAILING"
+                          "text": "DOWN"
                         },
                         "1": {
                           "color": "green",
-                          "index": 1,
-                          "text": "passed"
+                          "text": "up"
                         }
                       },
                       "type": "value"
                     }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 12,
-          "y": 42
-        },
-        "id": 22,
-        "options": {},
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_smart_healthy{instance=~\"$instance\"} * on (instance, device) group_left (disk, model) zfs_smart_device_info{instance=~\"$instance\"}",
-            "format": "table",
-            "instant": true,
-            "range": false,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_smart_error_log_entries{instance=~\"$instance\"}",
-            "format": "table",
-            "instant": true,
-            "range": false,
-            "refId": "B"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_smart_power_on_seconds{instance=~\"$instance\"}",
-            "format": "table",
-            "instant": true,
-            "range": false,
-            "refId": "C"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_smart_device_standby{instance=~\"$instance\"}",
-            "format": "table",
-            "instant": true,
-            "range": false,
-            "refId": "D"
-          }
-        ],
-        "title": "Disk health",
-        "transformations": [
-          {
-            "id": "merge",
-            "options": {}
-          },
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {
-                "Time": true,
-                "__name__": true,
-                "job": true
-              },
-              "indexByName": {
-                "Value #A": 4,
-                "Value #B": 5,
-                "Value #C": 6,
-                "Value #D": 7,
-                "device": 2,
-                "disk": 1,
-                "instance": 0,
-                "model": 3
-              },
-              "renameByName": {
-                "Value #A": "healthy",
-                "Value #B": "error log",
-                "Value #C": "power on",
-                "Value #D": "standby"
-              }
-            }
-          }
-        ],
-        "type": "table"
-      },
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 51
-        },
-        "id": 23,
-        "panels": [],
-        "title": "Datasets",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "unit": "bytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 0,
-          "y": 52
-        },
-        "id": 24,
-        "options": {
-          "displayMode": "basic",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "topk(15, zfs_dataset_used_bytes{instance=~\"$instance\", pool=~\"$pool\"})",
-            "instant": true,
-            "legendFormat": "{{instance}} {{dataset}}",
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Largest datasets",
-        "type": "bargauge"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
-            },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 52
-        },
-        "id": 25,
-        "options": {
-          "legend": {
-            "calcs": [
-              "lastNotNull",
-              "max"
-            ],
-            "displayMode": "table",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "topk(10, rate(zfs_dataset_written_bytes_total{instance=~\"$instance\", pool=~\"$pool\"}[$__rate_interval]))",
-            "legendFormat": "{{instance}} {{dataset}}",
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "Busiest datasets (writes)",
-        "type": "timeseries"
-      },
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 62
-        },
-        "id": 26,
-        "panels": [],
-        "title": "Exporter",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "mappings": [
-              {
-                "options": {
-                  "0": {
-                    "color": "red",
-                    "text": "DOWN"
-                  },
-                  "1": {
-                    "color": "green",
-                    "text": "up"
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "green",
+                        "value": 1
+                      }
+                    ]
                   }
                 },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "red",
-                  "value": null
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
+                "showPercentChange": false,
+                "textMode": "value_and_name",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-28": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
                 {
-                  "color": "green",
-                  "value": 1
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_exporter_collector_duration_seconds{instance=~\"$instance\"}",
+                        "legendFormat": "{{instance}} {{collector}}",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
                 }
-              ]
+              ],
+              "queryOptions": {},
+              "transformations": []
             }
           },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 12,
-          "x": 0,
-          "y": 63
-        },
-        "id": 27,
-        "options": {
-          "colorMode": "background",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ]
-          },
-          "textMode": "value_and_name"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
+          "description": "",
+          "id": 28,
+          "links": [],
+          "title": "Collector run time",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "s"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
             },
-            "editorMode": "code",
-            "expr": "zfs_exporter_collector_up{instance=~\"$instance\"}",
-            "instant": true,
-            "legendFormat": "{{instance}} {{collector}}",
-            "range": false,
-            "refId": "A"
+            "version": "13.2.4"
           }
-        ],
-        "title": "Collectors up",
-        "type": "stat"
+        }
       },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "cei7lwvco16o0b"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "lineWidth": 1,
-              "showPoints": "never"
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum(zfs_vdev_read_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_write_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_checksum_errors{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Read, write, and checksum errors on every vdev since the last zpool clear.",
+          "id": 3,
+          "links": [],
+          "title": "vdev errors",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 1
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              }
             },
-            "unit": "s"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 12,
-          "x": 12,
-          "y": 63
-        },
-        "id": 28,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "desc"
+            "version": "13.2.4"
           }
-        },
-        "targets": [
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum(zfs_pool_data_errors{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 4,
+          "links": [],
+          "title": "Data errors",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 1
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-5": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum(zfs_pool_needs_attention{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Pools for which zpool status prints a status message.",
+          "id": 5,
+          "links": [],
+          "title": "Pools needing attention",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 1
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "(time() - zfs_pool_scan_end_time_seconds{instance=~\"$instance\", pool=~\"$pool\"}) / 86400",
+                        "instant": true,
+                        "legendFormat": "{{instance}} {{pool}}",
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 6,
+          "links": [],
+          "title": "Days since last scrub",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 31
+                      },
+                      {
+                        "color": "red",
+                        "value": 45
+                      }
+                    ]
+                  },
+                  "unit": "d"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value_and_name",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_pool_capacity_ratio{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "instant": true,
+                        "legendFormat": "{{instance}} {{pool}}",
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 7,
+          "links": [],
+          "title": "Capacity",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "max": 1,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 0.8
+                      },
+                      {
+                        "color": "red",
+                        "value": 0.9
+                      }
+                    ]
+                  },
+                  "unit": "percentunit"
+                },
+                "overrides": []
+              },
+              "options": {
+                "displayMode": "gradient",
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "maxVizHeight": 300,
+                "minVizHeight": 16,
+                "minVizWidth": 8,
+                "namePlacement": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showUnfilled": true,
+                "sizing": "auto",
+                "valueMode": "color"
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_pool_fragmentation_ratio{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "instant": true,
+                        "legendFormat": "{{instance}} {{pool}}",
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 8,
+          "links": [],
+          "title": "Fragmentation",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "max": 1,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 0.5
+                      },
+                      {
+                        "color": "red",
+                        "value": 0.7
+                      }
+                    ]
+                  },
+                  "unit": "percentunit"
+                },
+                "overrides": []
+              },
+              "options": {
+                "displayMode": "gradient",
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "maxVizHeight": 300,
+                "minVizHeight": 16,
+                "minVizWidth": 8,
+                "namePlacement": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showUnfilled": true,
+                "sizing": "auto",
+                "valueMode": "color"
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "cei7lwvco16o0b"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "zfs_pool_allocated_bytes{instance=~\"$instance\", pool=~\"$pool\"}",
+                        "legendFormat": "{{instance}} {{pool}}",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 9,
+          "links": [],
+          "title": "Allocated space",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            "version": "13.2.4"
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "RowsLayout",
+      "spec": {
+        "rows": [
           {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "cei7lwvco16o0b"
-            },
-            "editorMode": "code",
-            "expr": "zfs_exporter_collector_duration_seconds{instance=~\"$instance\"}",
-            "legendFormat": "{{instance}} {{collector}}",
-            "range": true,
-            "refId": "A"
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-2"
+                        },
+                        "height": 4,
+                        "width": 4,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-3"
+                        },
+                        "height": 4,
+                        "width": 4,
+                        "x": 4,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-4"
+                        },
+                        "height": 4,
+                        "width": 4,
+                        "x": 8,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-5"
+                        },
+                        "height": 4,
+                        "width": 4,
+                        "x": 12,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-6"
+                        },
+                        "height": 4,
+                        "width": 8,
+                        "x": 16,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-7"
+                        },
+                        "height": 7,
+                        "width": 8,
+                        "x": 0,
+                        "y": 4
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-8"
+                        },
+                        "height": 7,
+                        "width": 8,
+                        "x": 8,
+                        "y": 4
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        },
+                        "height": 7,
+                        "width": 8,
+                        "x": 16,
+                        "y": 4
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Pools"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-12"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 8,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-13"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 16,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Pool I/O"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-15"
+                        },
+                        "height": 10,
+                        "width": 14,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-16"
+                        },
+                        "height": 10,
+                        "width": 10,
+                        "x": 14,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Virtual devices"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-18"
+                        },
+                        "height": 8,
+                        "width": 12,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-19"
+                        },
+                        "height": 8,
+                        "width": 12,
+                        "x": 12,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Adaptive Replacement Cache (ARC)"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-21"
+                        },
+                        "height": 9,
+                        "width": 12,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-22"
+                        },
+                        "height": 9,
+                        "width": 12,
+                        "x": 12,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Self-Monitoring, Analysis and Reporting Technology (SMART)"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-24"
+                        },
+                        "height": 10,
+                        "width": 12,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-25"
+                        },
+                        "height": 10,
+                        "width": 12,
+                        "x": 12,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Datasets"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-27"
+                        },
+                        "height": 4,
+                        "width": 12,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-28"
+                        },
+                        "height": 4,
+                        "width": 12,
+                        "x": 12,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Exporter"
+            }
           }
-        ],
-        "title": "Collector run time",
-        "type": "timeseries"
+        ]
+      }
+    },
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "zpool-status-exporter",
+        "tooltip": "",
+        "type": "link",
+        "url": "https://github.com/cdf-eagles/zpool-status-exporter"
       }
     ],
-    "refresh": "30s",
-    "schemaVersion": 39,
+    "liveNow": false,
+    "preload": false,
     "tags": [
       "zfs",
       "smart",
       "zpool-status-exporter"
     ],
-    "templating": {
-      "list": [
-        {
-          "current": {},
-          "hide": 0,
+    "timeSettings": {
+      "autoRefresh": "auto",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-1h",
+      "hideTimepicker": false,
+      "timezone": "browser",
+      "to": "now"
+    },
+    "title": "ZFS (zpool-status-exporter)",
+    "variables": [
+      {
+        "kind": "DatasourceVariable",
+        "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "mimir",
+            "value": "cei7lwvco16o0b"
+          },
+          "hide": "dontHide",
+          "includeAll": false,
           "label": "Data source",
+          "multi": false,
           "name": "DS_PROMETHEUS",
-          "query": "prometheus",
-          "type": "datasource"
-        },
-        {
+          "options": [],
+          "pluginId": "prometheus",
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "skipUrlSync": false
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
           "allValue": ".*",
-          "current": {},
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cei7lwvco16o0b"
+          "allowCustomValue": true,
+          "current": {
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
           },
           "definition": "label_values(zfs_exporter_collector_up, instance)",
-          "hide": 0,
+          "hide": "dontHide",
           "includeAll": true,
           "label": "Instance",
           "multi": true,
           "name": "instance",
           "options": [],
           "query": {
-            "query": "label_values(zfs_exporter_collector_up, instance)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            "datasource": {
+              "name": "cei7lwvco16o0b"
+            },
+            "group": "prometheus",
+            "kind": "DataQuery",
+            "spec": {
+              "query": "label_values(zfs_exporter_collector_up, instance)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            },
+            "version": "v0"
           },
-          "refresh": 2,
-          "sort": 1,
-          "type": "query"
-        },
-        {
+          "refresh": "onTimeRangeChanged",
+          "regex": "",
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "alphabeticalAsc"
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
           "allValue": ".*",
-          "current": {},
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cei7lwvco16o0b"
+          "allowCustomValue": true,
+          "current": {
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
           },
           "definition": "label_values(zfs_pool_state{instance=~\"$instance\"}, pool)",
-          "hide": 0,
+          "hide": "dontHide",
           "includeAll": true,
           "label": "Pool",
           "multi": true,
           "name": "pool",
           "options": [],
           "query": {
-            "query": "label_values(zfs_pool_state{instance=~\"$instance\"}, pool)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            "datasource": {
+              "name": "cei7lwvco16o0b"
+            },
+            "group": "prometheus",
+            "kind": "DataQuery",
+            "spec": {
+              "query": "label_values(zfs_pool_state{instance=~\"$instance\"}, pool)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            },
+            "version": "v0"
           },
-          "refresh": 2,
-          "sort": 1,
-          "type": "query"
+          "refresh": "onTimeRangeChanged",
+          "regex": "",
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "alphabeticalAsc"
         }
-      ]
-    },
-    "time": {
-      "from": "now-6h",
-      "to": "now"
-    },
-    "title": "ZFS (zpool-status-exporter)"
+      }
+    ]
   }
 }
