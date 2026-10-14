@@ -1,0 +1,1585 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "deg17uvty4wrnkf"
+  },
+  "spec": {
+    "description": "Example dashboard for zpool-status-exporter: pools, vdevs, I/O, ARC, SMART, and datasets.",
+    "editable": true,
+    "graphTooltip": 1,
+    "links": [
+      {
+        "targetBlank": true,
+        "title": "zpool-status-exporter",
+        "type": "link",
+        "url": "https://github.com/cdf-eagles/zpool-status-exporter"
+      }
+    ],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "panels": [],
+        "title": "Pools",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "Pools whose state is anything other than ONLINE.",
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "background",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "count(zfs_pool_state{instance=~\"$instance\", pool=~\"$pool\", state=\"ONLINE\"} == 0) or vector(0)",
+            "instant": true,
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Pools not ONLINE",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "Read, write, and checksum errors on every vdev since the last zpool clear.",
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "background",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "sum(zfs_vdev_read_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_write_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_checksum_errors{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
+            "instant": true,
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "vdev errors",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 8,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "background",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "sum(zfs_pool_data_errors{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
+            "instant": true,
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Data errors",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "Pools for which zpool status prints a status message.",
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 12,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "background",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "sum(zfs_pool_needs_attention{instance=~\"$instance\", pool=~\"$pool\"}) or vector(0)",
+            "instant": true,
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Pools needing attention",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "decimals": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 31
+                },
+                {
+                  "color": "red",
+                  "value": 45
+                }
+              ]
+            },
+            "unit": "d"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 8,
+          "x": 16,
+          "y": 1
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          },
+          "textMode": "value_and_name"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "(time() - zfs_pool_scan_end_time_seconds{instance=~\"$instance\", pool=~\"$pool\"}) / 86400",
+            "instant": true,
+            "legendFormat": "{{instance}} {{pool}}",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Days since last scrub",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "max": 1,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 0.8
+                },
+                {
+                  "color": "red",
+                  "value": 0.9
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 8,
+          "x": 0,
+          "y": 5
+        },
+        "id": 7,
+        "options": {
+          "displayMode": "gradient",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_pool_capacity_ratio{instance=~\"$instance\", pool=~\"$pool\"}",
+            "instant": true,
+            "legendFormat": "{{instance}} {{pool}}",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Capacity",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "max": 1,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 0.5
+                },
+                {
+                  "color": "red",
+                  "value": 0.7
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 8,
+          "x": 8,
+          "y": 5
+        },
+        "id": 8,
+        "options": {
+          "displayMode": "gradient",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_pool_fragmentation_ratio{instance=~\"$instance\", pool=~\"$pool\"}",
+            "instant": true,
+            "legendFormat": "{{instance}} {{pool}}",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Fragmentation",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "bytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 8,
+          "x": 16,
+          "y": 5
+        },
+        "id": 9,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_pool_allocated_bytes{instance=~\"$instance\", pool=~\"$pool\"}",
+            "legendFormat": "{{instance}} {{pool}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Allocated space",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 10,
+        "panels": [],
+        "title": "Pool I/O",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "Reads above the axis, writes below.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "Bps"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 0,
+          "y": 13
+        },
+        "id": 11,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_pool_read_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+            "legendFormat": "{{instance}} {{pool}} read",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "-zfs_pool_write_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+            "legendFormat": "{{instance}} {{pool}} write",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "Bandwidth",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "Reads above the axis, writes below.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "iops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 8,
+          "y": 13
+        },
+        "id": 12,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_pool_read_operations_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+            "legendFormat": "{{instance}} {{pool}} read",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "-zfs_pool_write_operations_per_second{instance=~\"$instance\", pool=~\"$pool\"}",
+            "legendFormat": "{{instance}} {{pool}} write",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "Operations",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "Average total wait per I/O over each 10-second sample.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 16,
+          "y": 13
+        },
+        "id": 13,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_pool_latency_seconds{instance=~\"$instance\", pool=~\"$pool\", queue=\"total\"}",
+            "legendFormat": "{{instance}} {{pool}} {{op}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Total wait (latency)",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 21
+        },
+        "id": 14,
+        "panels": [],
+        "title": "Virtual devices",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "One row per vdev. The disk column joins to the SMART panels.",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "state"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-text"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "ONLINE": {
+                          "color": "green",
+                          "index": 0
+                        }
+                      },
+                      "type": "value"
+                    },
+                    {
+                      "options": {
+                        "pattern": "^(?!ONLINE$).*",
+                        "result": {
+                          "color": "red",
+                          "index": 1
+                        }
+                      },
+                      "type": "regex"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "errors"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "transparent",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 1
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 14,
+          "x": 0,
+          "y": 22
+        },
+        "id": 15,
+        "options": {},
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_vdev_state{instance=~\"$instance\", pool=~\"$pool\"} == 1",
+            "format": "table",
+            "instant": true,
+            "range": false,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_vdev_read_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_write_errors{instance=~\"$instance\", pool=~\"$pool\"} + zfs_vdev_checksum_errors{instance=~\"$instance\", pool=~\"$pool\"}",
+            "format": "table",
+            "instant": true,
+            "range": false,
+            "refId": "B"
+          }
+        ],
+        "title": "vdev state and errors",
+        "transformations": [
+          {
+            "id": "merge",
+            "options": {}
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "Value #A": true,
+                "__name__": true,
+                "job": true
+              },
+              "indexByName": {
+                "Value #B": 8,
+                "class": 2,
+                "device": 5,
+                "disk": 6,
+                "instance": 0,
+                "pool": 1,
+                "state": 7,
+                "vdev": 4,
+                "vdev_type": 3
+              },
+              "renameByName": {
+                "Value #B": "errors"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "Bps"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 10,
+          "x": 14,
+          "y": 22
+        },
+        "id": 16,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "topk(10, zfs_vdev_read_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\", vdev_type=\"disk\"} + zfs_vdev_write_bytes_per_second{instance=~\"$instance\", pool=~\"$pool\", vdev_type=\"disk\"})",
+            "legendFormat": "{{instance}} {{pool}} {{vdev}} ({{disk}})",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Busiest leaf vdevs (bandwidth)",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 32
+        },
+        "id": 17,
+        "panels": [],
+        "title": "Adaptive Replacement Cache (ARC)",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "bytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 33
+        },
+        "id": 18,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_arc_size{instance=~\"$instance\"}",
+            "legendFormat": "{{instance}} size",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_arc_c{instance=~\"$instance\"}",
+            "legendFormat": "{{instance}} target",
+            "range": true,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_arc_c_max{instance=~\"$instance\"}",
+            "legendFormat": "{{instance}} maximum",
+            "range": true,
+            "refId": "C"
+          }
+        ],
+        "title": "ARC size",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "max": 1,
+            "min": 0,
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 33
+        },
+        "id": 19,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "rate(zfs_arc_hits{instance=~\"$instance\"}[$__rate_interval]) / (rate(zfs_arc_hits{instance=~\"$instance\"}[$__rate_interval]) + rate(zfs_arc_misses{instance=~\"$instance\"}[$__rate_interval]))",
+            "legendFormat": "{{instance}} hit ratio",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "ARC hit ratio",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 41
+        },
+        "id": 20,
+        "panels": [],
+        "title": "Self-Monitoring, Analysis and Reporting Technology (SMART)",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 50
+                },
+                {
+                  "color": "red",
+                  "value": 60
+                }
+              ]
+            },
+            "unit": "celsius"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 42
+        },
+        "id": 21,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_smart_temperature_celsius{instance=~\"$instance\"} * on (instance, device) group_left (disk, model) zfs_smart_device_info{instance=~\"$instance\"}",
+            "legendFormat": "{{instance}} {{disk}} ({{model}})",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Disk temperature",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "description": "healthy: SMART overall self-assessment. error log: entries in the device error log.",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "power on"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "s"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "healthy"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 0,
+                          "text": "FAILING"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "passed"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 42
+        },
+        "id": 22,
+        "options": {},
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_smart_healthy{instance=~\"$instance\"} * on (instance, device) group_left (disk, model) zfs_smart_device_info{instance=~\"$instance\"}",
+            "format": "table",
+            "instant": true,
+            "range": false,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_smart_error_log_entries{instance=~\"$instance\"}",
+            "format": "table",
+            "instant": true,
+            "range": false,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_smart_power_on_seconds{instance=~\"$instance\"}",
+            "format": "table",
+            "instant": true,
+            "range": false,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_smart_device_standby{instance=~\"$instance\"}",
+            "format": "table",
+            "instant": true,
+            "range": false,
+            "refId": "D"
+          }
+        ],
+        "title": "Disk health",
+        "transformations": [
+          {
+            "id": "merge",
+            "options": {}
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "__name__": true,
+                "job": true
+              },
+              "indexByName": {
+                "Value #A": 4,
+                "Value #B": 5,
+                "Value #C": 6,
+                "Value #D": 7,
+                "device": 2,
+                "disk": 1,
+                "instance": 0,
+                "model": 3
+              },
+              "renameByName": {
+                "Value #A": "healthy",
+                "Value #B": "error log",
+                "Value #C": "power on",
+                "Value #D": "standby"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 51
+        },
+        "id": 23,
+        "panels": [],
+        "title": "Datasets",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "bytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 52
+        },
+        "id": 24,
+        "options": {
+          "displayMode": "basic",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "topk(15, zfs_dataset_used_bytes{instance=~\"$instance\", pool=~\"$pool\"})",
+            "instant": true,
+            "legendFormat": "{{instance}} {{dataset}}",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Largest datasets",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "Bps"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 52
+        },
+        "id": 25,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "topk(10, rate(zfs_dataset_written_bytes_total{instance=~\"$instance\", pool=~\"$pool\"}[$__rate_interval]))",
+            "legendFormat": "{{instance}} {{dataset}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Busiest datasets (writes)",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 62
+        },
+        "id": 26,
+        "panels": [],
+        "title": "Exporter",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "text": "DOWN"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "up"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 12,
+          "x": 0,
+          "y": 63
+        },
+        "id": 27,
+        "options": {
+          "colorMode": "background",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ]
+          },
+          "textMode": "value_and_name"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_exporter_collector_up{instance=~\"$instance\"}",
+            "instant": true,
+            "legendFormat": "{{instance}} {{collector}}",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Collectors up",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cei7lwvco16o0b"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 1,
+              "showPoints": "never"
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 12,
+          "x": 12,
+          "y": 63
+        },
+        "id": 28,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "cei7lwvco16o0b"
+            },
+            "editorMode": "code",
+            "expr": "zfs_exporter_collector_duration_seconds{instance=~\"$instance\"}",
+            "legendFormat": "{{instance}} {{collector}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Collector run time",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 39,
+    "tags": [
+      "zfs",
+      "smart",
+      "zpool-status-exporter"
+    ],
+    "templating": {
+      "list": [
+        {
+          "current": {},
+          "hide": 0,
+          "label": "Data source",
+          "name": "DS_PROMETHEUS",
+          "query": "prometheus",
+          "type": "datasource"
+        },
+        {
+          "allValue": ".*",
+          "current": {},
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cei7lwvco16o0b"
+          },
+          "definition": "label_values(zfs_exporter_collector_up, instance)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Instance",
+          "multi": true,
+          "name": "instance",
+          "options": [],
+          "query": {
+            "query": "label_values(zfs_exporter_collector_up, instance)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 2,
+          "sort": 1,
+          "type": "query"
+        },
+        {
+          "allValue": ".*",
+          "current": {},
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cei7lwvco16o0b"
+          },
+          "definition": "label_values(zfs_pool_state{instance=~\"$instance\"}, pool)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Pool",
+          "multi": true,
+          "name": "pool",
+          "options": [],
+          "query": {
+            "query": "label_values(zfs_pool_state{instance=~\"$instance\"}, pool)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 2,
+          "sort": 1,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "title": "ZFS (zpool-status-exporter)"
+  }
+}
