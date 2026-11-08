@@ -51,7 +51,7 @@
       }
     ],
     "cursorSync": "Crosshair",
-    "description": "Lightweight APM dashboard for monitoring OpenTelemetry-based services.  \r\nInstrument your applications using OpenTelemetry SDKs and send traces, metrics, and logs to Tempo for traces, a Prometheus-compatible database like Mimir for metrics, and Loki for logs.",
+    "description": "APM view of the services that send traces to Tempo, keyed on service.name. Request rate, errors and latency come from Tempo metrics-generator span metrics and service-graph metrics in Mimir; logs come from Loki by systemd unit. Adapted from the Lightweight APM for OpenTelemetry dashboard (backlog item 513, 2026-11-08).",
     "editable": true,
     "elements": {
       "panel-17": {
@@ -59,7 +59,7 @@
         "spec": {
           "id": 17,
           "title": "Duration",
-          "description": "HTTP endpoints aggregation on the `http.server.request.duration` metric.\n\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration",
+          "description": "Built on Tempo metrics-generator span metrics (`traces_spanmetrics_*`). Latency of the service's inbound spans (span kind server or consumer).",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -77,8 +77,8 @@
                       },
                       "spec": {
                         "disableTextWrap": false,
-                        "editorMode": "builder",
-                        "expr": "histogram_quantile(0.99, sum by(le, job) (rate(http_server_request_duration_seconds_bucket{job=\"$service_namespace/$service_name\"}[$__rate_interval])))",
+                        "editorMode": "code",
+                        "expr": "histogram_quantile(0.99, sum by (le) (rate(traces_spanmetrics_latency_bucket{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval])))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
                         "legendFormat": "P99",
@@ -102,8 +102,8 @@
                       },
                       "spec": {
                         "disableTextWrap": false,
-                        "editorMode": "builder",
-                        "expr": "histogram_quantile(0.9, sum by(le, job) (rate(http_server_request_duration_seconds_bucket{job=\"$service_namespace/$service_name\"}[$__rate_interval])))",
+                        "editorMode": "code",
+                        "expr": "histogram_quantile(0.9, sum by (le) (rate(traces_spanmetrics_latency_bucket{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval])))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
                         "legendFormat": "P90",
@@ -127,8 +127,8 @@
                       },
                       "spec": {
                         "disableTextWrap": false,
-                        "editorMode": "builder",
-                        "expr": "avg by(job) (rate(http_server_request_duration_seconds_sum{job=\"$service_namespace/$service_name\"}[$__rate_interval])) / avg by(job) (rate(http_server_request_duration_seconds_count{job=\"$service_namespace/$service_name\"}[$__rate_interval]))",
+                        "editorMode": "code",
+                        "expr": "sum(rate(traces_spanmetrics_latency_sum{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval])) / sum(rate(traces_spanmetrics_latency_count{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval]))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
                         "legendFormat": "AVG",
@@ -230,7 +230,7 @@
         "spec": {
           "id": 18,
           "title": "Error",
-          "description": "HTTP endpoints aggregation on the `http.server.request.duration` metric. \n\nErrors are identified by   `http.response.status_code=~\"5..\"`.\n\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration",
+          "description": "Built on Tempo metrics-generator span metrics (`traces_spanmetrics_*`). Share of inbound spans (server or consumer) with status `STATUS_CODE_ERROR`.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -249,11 +249,11 @@
                       "spec": {
                         "disableTextWrap": false,
                         "editorMode": "code",
-                        "expr": "(sum without(http_response_status_code, error_type, instance) (rate(http_server_request_duration_seconds_count{job=\"$service_namespace/$service_name\", http_response_status_code=~\"5..\"}[$__rate_interval])) * 100) / sum without(http_response_status_code, error_type, instance) (rate(http_server_request_duration_seconds_count{job=\"$service_namespace/$service_name\"}[$__rate_interval]))",
+                        "expr": "(sum(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\", status_code=\"STATUS_CODE_ERROR\"}[$__rate_interval])) or vector(0)) * 100 / sum(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval]))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
                         "instant": false,
-                        "legendFormat": "5xx",
+                        "legendFormat": "Errors",
                         "range": true,
                         "useBackend": false
                       }
@@ -351,7 +351,7 @@
         "spec": {
           "id": 19,
           "title": "Request Rate",
-          "description": "HTTP endpoints aggregation on the `http.server.request.duration` metric.\n\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration",
+          "description": "Built on Tempo metrics-generator span metrics (`traces_spanmetrics_*`). Inbound spans (server or consumer) per second.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -369,7 +369,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "(sum(rate(http_server_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval])) by (job)) * $__interval_ms / 1000",
+                        "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval]))",
                         "legendFormat": "Requests",
                         "range": true
                       }
@@ -489,7 +489,7 @@
                   "showLineNumbers": false,
                   "showMiniMap": false
                 },
-                "content": "<h1><img src=\"https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png\" alt=\"OpenTelemetry Icon\" width=\"25\" height=\"\"> Service ${service_namespace}/${service_name}</h1>",
+                "content": "<h1><img src=\"https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png\" alt=\"OpenTelemetry Icon\" width=\"25\" height=\"\"> Service ${service_name}</h1>",
                 "mode": "html"
               },
               "fieldConfig": {
@@ -504,8 +504,8 @@
         "kind": "Panel",
         "spec": {
           "id": 21,
-          "title": "HTTP Operations",
-          "description": "Inbound HTTP operations of the service (aka HTTP endpoints) based on the `http.server.request.duration` metric.\n\nErrors are identified by `http.response.status_code=~\"5..\"`.\n\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration",
+          "title": "Inbound Operations",
+          "description": "Built on Tempo metrics-generator span metrics (`traces_spanmetrics_*`). Inbound operations of the service by span name (span kind server or consumer). Errors are spans with status `STATUS_CODE_ERROR`.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -524,7 +524,7 @@
                       "spec": {
                         "disableTextWrap": false,
                         "editorMode": "code",
-                        "expr": "\n        sum by (operation) (\n            label_join(\n                rate(http_server_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"operation\",\n                \" \",\n                \"http_request_method\",\n                \"http_route\"\n            )\n        )\n    ",
+                        "expr": "sum by (operation) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval]), \"operation\", \"\", \"span_name\"))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
                         "legendFormat": "{{operation}}",
@@ -548,7 +548,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "(\n        sum by (operation) (\n            label_join(\n                rate(http_server_request_duration_seconds_count{job=~\"$service_namespace/$service_name\", http_response_status_code=~\"5..\"}[$__rate_interval]),\n                \"operation\",\n                \" \",\n                \"http_request_method\",\n                \"http_route\"\n            )\n        )\n     / \n        sum by (operation) (\n            label_join(\n                rate(http_server_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"operation\",\n                \" \",\n                \"http_request_method\",\n                \"http_route\"\n            )\n        )\n    ) or (0 * \n        sum by (operation) (\n            label_join(\n                rate(http_server_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"operation\",\n                \" \",\n                \"http_request_method\",\n                \"http_route\"\n            )\n        )\n    )",
+                        "expr": "(sum by (operation) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\", status_code=\"STATUS_CODE_ERROR\"}[$__rate_interval]), \"operation\", \"\", \"span_name\")) / sum by (operation) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval]), \"operation\", \"\", \"span_name\"))) or (0 * sum by (operation) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[$__rate_interval]), \"operation\", \"\", \"span_name\")))",
                         "instant": false,
                         "legendFormat": "{{operation}}",
                         "range": true
@@ -570,7 +570,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "\n        histogram_quantile(\n            0.99,\n            sum by (le, operation) (\n                label_join(\n                rate(http_server_request_duration_seconds_bucket{job=~\"$service_namespace/$service_name\"}[5m]),\n                \"operation\",\n                \" \",\n                \"http_request_method\",\n                \"http_route\"\n                )\n            )\n        )\n    ",
+                        "expr": "histogram_quantile(0.99, sum by (le, operation) (label_join(rate(traces_spanmetrics_latency_bucket{service=\"$service_name\", span_kind=~\"SPAN_KIND_SERVER|SPAN_KIND_CONSUMER\"}[5m]), \"operation\", \"\", \"span_name\")))",
                         "instant": false,
                         "legendFormat": "{{operation}}",
                         "range": true
@@ -735,8 +735,8 @@
         "kind": "Panel",
         "spec": {
           "id": 23,
-          "title": "Outbound HTTP Services",
-          "description": "HTTP calls made by the service based on the `http.client.request.duration` metric.\n\nCalls broken done by remote `server.address` and by `http.request.method`.\n\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpclientrequestduration",
+          "title": "Outbound Calls",
+          "description": "Built on Tempo metrics-generator span metrics (`traces_spanmetrics_*`). Calls the service makes, by span name (span kind client or producer). Errors are spans with status `STATUS_CODE_ERROR`.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -755,10 +755,10 @@
                       "spec": {
                         "disableTextWrap": false,
                         "editorMode": "code",
-                        "expr": "\n        sum by (outbound_service) (\n            label_join(\n                rate(http_client_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"outbound_service\",\n                \" \",\n                \"server_address\",\n                \"http_request_method\",\n                \"url_template\"\n            )\n        )\n    ",
+                        "expr": "sum by (outbound_service) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_CLIENT|SPAN_KIND_PRODUCER\"}[$__rate_interval]), \"outbound_service\", \"\", \"span_name\"))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
-                        "legendFormat": "{{server_address}} {{http_request_method}} {{url_template}}",
+                        "legendFormat": "{{outbound_service}}",
                         "range": true,
                         "useBackend": false
                       }
@@ -779,9 +779,9 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "(\n        sum by (outbound_service) (\n            label_join(\n                rate(http_client_request_duration_seconds_count{job=~\"$service_namespace/$service_name\", http_response_status_code=~\"5..\"}[$__rate_interval]),\n                \"outbound_service\",\n                \" \",\n                \"server_address\",\n                \"http_request_method\",\n                \"url_template\"\n            )\n        )\n     / \n        sum by (outbound_service) (\n            label_join(\n                rate(http_client_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"outbound_service\",\n                \" \",\n                \"server_address\",\n                \"http_request_method\",\n                \"url_template\"\n            )\n        )\n    ) or (0 * \n        sum by (outbound_service) (\n            label_join(\n                rate(http_client_request_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"outbound_service\",\n                \" \",\n                \"server_address\",\n                \"http_request_method\",\n                \"url_template\"\n            )\n        )\n    )",
+                        "expr": "(sum by (outbound_service) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_CLIENT|SPAN_KIND_PRODUCER\", status_code=\"STATUS_CODE_ERROR\"}[$__rate_interval]), \"outbound_service\", \"\", \"span_name\")) / sum by (outbound_service) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_CLIENT|SPAN_KIND_PRODUCER\"}[$__rate_interval]), \"outbound_service\", \"\", \"span_name\"))) or (0 * sum by (outbound_service) (label_join(rate(traces_spanmetrics_calls_total{service=\"$service_name\", span_kind=~\"SPAN_KIND_CLIENT|SPAN_KIND_PRODUCER\"}[$__rate_interval]), \"outbound_service\", \"\", \"span_name\")))",
                         "instant": false,
-                        "legendFormat": "{{server_address}} {{http_request_method}} {{url_template}}",
+                        "legendFormat": "{{outbound_service}}",
                         "range": true
                       }
                     },
@@ -801,9 +801,9 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "\nhistogram_quantile(\n    0.99,\n    sum by (le, outbound_service) (\n        label_join(\n        rate(http_client_request_duration_seconds_bucket{job=~\"$service_namespace/$service_name\"}[5m]),\n        \"outbound_service\",\n        \" \",\n        \"server_address\",\n        \"http_request_method\",\n        \"url_template\"\n        )\n    )\n)",
+                        "expr": "histogram_quantile(0.99, sum by (le, outbound_service) (label_join(rate(traces_spanmetrics_latency_bucket{service=\"$service_name\", span_kind=~\"SPAN_KIND_CLIENT|SPAN_KIND_PRODUCER\"}[5m]), \"outbound_service\", \"\", \"span_name\")))",
                         "instant": false,
-                        "legendFormat": "{{server_address}} {{http_request_method}} {{url_template}}",
+                        "legendFormat": "{{outbound_service}}",
                         "range": true
                       }
                     },
@@ -859,7 +859,7 @@
                         "Trend #ERR_PCT": "Error",
                         "Trend #RPS": "Rate",
                         "operation": "Operation",
-                        "outbound_service": "Service"
+                        "outbound_service": "Call"
                       }
                     }
                   }
@@ -958,8 +958,8 @@
         "kind": "Panel",
         "spec": {
           "id": 24,
-          "title": "Outbound Databases",
-          "description": "DB calls made by the service based on the `db.client.operation.duration` metric.\n\nCalls broken down by `server.address` and `db.namespace`.\n\nSee https://opentelemetry.io/docs/specs/semconv/database/database-metrics/#metric-dbclientoperationduration\n",
+          "title": "Downstream Services",
+          "description": "Built on Tempo metrics-generator service-graph metrics (`traces_service_graph_*`). Services this service calls, with request rate, failed share and client-side p99 latency.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -978,10 +978,10 @@
                       "spec": {
                         "disableTextWrap": false,
                         "editorMode": "code",
-                        "expr": "sum by (database) (\n    label_join(\n        rate(db_client_operation_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n        \"database\",\n        \"/\",\n        \"server_address\",\n        \"db_namespace\"\n    )\n)\n    ",
+                        "expr": "sum by (downstream) (label_join(rate(traces_service_graph_request_total{client=\"$service_name\"}[$__rate_interval]), \"downstream\", \"\", \"server\"))",
                         "fullMetaSearch": false,
                         "includeNullMetadata": true,
-                        "legendFormat": "{{server_address}} {{db_namespace}}",
+                        "legendFormat": "{{downstream}}",
                         "range": true,
                         "useBackend": false
                       }
@@ -1002,9 +1002,9 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "(\n        sum by (database) (\n            label_join(\n                rate(db_client_operation_duration_seconds_count{job=~\"$service_namespace/$service_name\", http_response_status_code=~\"5..\"}[$__rate_interval]),\n                \"database\",\n                \"/\",\n                \"server_address\",\n                \"db_namespace\"\n            )\n        )\n     / \n        sum by (database) (\n            label_join(\n                rate(db_client_operation_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"database\",\n                \"/\",\n                \"server_address\",\n                \"db_namespace\"\n            )\n        )\n    ) or (0 * \n        sum by (database) (\n            label_join(\n                rate(db_client_operation_duration_seconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"database\",\n                \"/\",\n                \"server_address\",\n                \"db_namespace\"\n            )\n        )\n    )",
+                        "expr": "(sum by (downstream) (label_join(rate(traces_service_graph_request_failed_total{client=\"$service_name\"}[$__rate_interval]), \"downstream\", \"\", \"server\")) / sum by (downstream) (label_join(rate(traces_service_graph_request_total{client=\"$service_name\"}[$__rate_interval]), \"downstream\", \"\", \"server\"))) or (0 * sum by (downstream) (label_join(rate(traces_service_graph_request_total{client=\"$service_name\"}[$__rate_interval]), \"downstream\", \"\", \"server\")))",
                         "instant": false,
-                        "legendFormat": "{{server_address}} {{db_namespace}}",
+                        "legendFormat": "{{downstream}}",
                         "range": true
                       }
                     },
@@ -1024,9 +1024,9 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "\nhistogram_quantile(\n    0.99,\n    sum by (le, database) (\n        label_join(\n        rate(db_client_operation_duration_seconds_bucket{job=~\"$service_namespace/$service_name\"}[5m]),\n            \"database\",\n            \"/\",\n            \"server_address\",\n            \"db_namespace\"\n        )\n    )\n)",
+                        "expr": "histogram_quantile(0.99, sum by (le, downstream) (label_join(rate(traces_service_graph_request_client_seconds_bucket{client=\"$service_name\"}[5m]), \"downstream\", \"\", \"server\")))",
                         "instant": false,
-                        "legendFormat": "{{server_address}} {{db_namespace}}",
+                        "legendFormat": "{{downstream}}",
                         "range": true
                       }
                     },
@@ -1061,7 +1061,7 @@
                   "group": "joinByField",
                   "spec": {
                     "options": {
-                      "byField": "database",
+                      "byField": "downstream",
                       "mode": "outer"
                     }
                   }
@@ -1077,17 +1077,13 @@
                         "Trend #DURATION": 1,
                         "Trend #ERR_PCT": 2,
                         "Trend #RPS": 3,
-                        "database": 0
+                        "downstream": 0
                       },
                       "renameByName": {
                         "Trend #DURATION": "Duration (P99)",
-                        "Trend #Duration": "Duration (p99)",
                         "Trend #ERR_PCT": "Error",
                         "Trend #RPS": "Rate",
-                        "database": "Database",
-                        "database_operation": "Database Operation",
-                        "operation": "Operation",
-                        "outbound_service": "Service"
+                        "downstream": "Service"
                       }
                     }
                   }
@@ -1188,7 +1184,7 @@
         "spec": {
           "id": 26,
           "title": "",
-          "description": "Logs of the service, filtered by `service.name` and `service.namespace`.\n\nTo explore the logs, open the menu clicking on the icon `⋮` of this panel and click on `Explore`.",
+          "description": "Logs of the service's systemd unit (`grafana-<service>.service` for the grafana-stack containers, `<service>.service` otherwise).\n\nTo explore the logs, open the menu clicking on the icon `⋮` of this panel and click on `Explore`.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -1207,7 +1203,7 @@
                       "spec": {
                         "direction": "backward",
                         "editorMode": "code",
-                        "expr": "{service_name=\"$service_name\", service_namespace=\"$service_namespace\"} | line_format `\u001b[1m{{if .level }}{{alignRight 5 .level}}{{else if .severity_text}}{{alignRight 5 .severity_text}}{{end}}\u001b[0m \u001b[90m[{{alignRight 10 .service_instance_id}}{{if .thread_name}}/{{alignRight 20 .thread_name}}{{else if eq \"java\" .telemetry_sdk_language }}                    {{end}}]\u001b[0m \u001b[36m{{if .scope_name }}{{alignRight 40 .scope_name}}{{end}}{{if .exception_type}} \u001b[1;101m \u001b[0m{{end}} {{if .exception_type}}\u001b[1;91m{{.exception_type}}\u001b[0m{{end}}{{if .exception_message}} \u001b[1;91m{{.exception_message}}\u001b[0m {{end}} \u001b[0m {{__line__}} {{if .trace_id}} \u001b[37m\u001b[3m[trace_id={{.trace_id}}]{{end}}`",
+                        "expr": "{unit=~\"(grafana-)?$service_name[.]service\"}",
                         "queryType": "range"
                       }
                     },
@@ -1239,233 +1235,6 @@
               "fieldConfig": {
                 "defaults": {},
                 "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-27": {
-        "kind": "Panel",
-        "spec": {
-          "id": 27,
-          "title": "gRPC Operations",
-          "description": "Inbound gRPC operations of the service (aka gRPC endpoints) based on the `rpc.server.request.duration` metric.\n\nErrors are identified by `rpc.grpc.status_code != 0` which make the panel specific to the gRPC protocol.\n\nhttps://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#metric-rpcserverduration",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "disableTextWrap": false,
-                        "editorMode": "code",
-                        "expr": "\nsum by (operation) (\n    label_join(\n        rate(rpc_server_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n        \"operation\",\n        \"/\",\n        \"rpc_service\",\n        \"rpc_method\"\n    )\n)\n    ",
-                        "fullMetaSearch": false,
-                        "includeNullMetadata": true,
-                        "legendFormat": "__auto",
-                        "range": true,
-                        "useBackend": false
-                      }
-                    },
-                    "refId": "RPS",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "(\n        sum by (operation) (\n            label_join(\n                rate(rpc_server_duration_milliseconds_count{job=~\"$service_namespace/$service_name\", rpc_grpc_status_code!=\"0\"}[$__rate_interval]),\n                \"operation\",\n                \"/\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n     / \n        sum by (operation) (\n            label_join(\n                rate(rpc_server_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"operation\",\n                \"/\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n    ) or (0 * \n        sum by (operation) (\n            label_join(\n                rate(rpc_server_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"operation\",\n                \"/\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n    )\n    ",
-                        "instant": false,
-                        "legendFormat": "__auto",
-                        "range": true
-                      }
-                    },
-                    "refId": "ERR_PCT",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "\n        histogram_quantile(\n            0.99,\n            sum by (le, operation) (\n                label_join(\n                rate(rpc_server_duration_milliseconds_bucket{job=~\"$service_namespace/$service_name\"}[5m]),\n                \"operation\",\n                \"/\",\n                \"rpc_service\",\n                \"rpc_method\"\n                )\n            )\n        )\n    ",
-                        "instant": false,
-                        "legendFormat": "{{operation}}",
-                        "range": true
-                      }
-                    },
-                    "refId": "Duration",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [
-                {
-                  "kind": "Transformation",
-                  "group": "timeSeriesTable",
-                  "spec": {
-                    "options": {
-                      "Duration": {
-                        "timeField": "Time"
-                      },
-                      "ERR_PCT": {
-                        "timeField": "Time"
-                      },
-                      "RPS": {
-                        "timeField": "Time"
-                      }
-                    }
-                  }
-                },
-                {
-                  "kind": "Transformation",
-                  "group": "joinByField",
-                  "spec": {
-                    "options": {
-                      "byField": "operation",
-                      "mode": "outer"
-                    }
-                  }
-                },
-                {
-                  "kind": "Transformation",
-                  "group": "organize",
-                  "spec": {
-                    "options": {
-                      "excludeByName": {},
-                      "includeByName": {},
-                      "indexByName": {
-                        "Trend #Duration": 1,
-                        "Trend #ERR_PCT": 2,
-                        "Trend #RPS": 3,
-                        "operation": 0
-                      },
-                      "renameByName": {
-                        "Trend #Duration": "Duration (p99)",
-                        "Trend #ERR_PCT": "Error",
-                        "Trend #RPS": "Rate",
-                        "operation": "Operation"
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "table",
-            "version": "11.6.0-82949",
-            "spec": {
-              "options": {
-                "cellHeight": "sm",
-                "footer": {
-                  "countRows": false,
-                  "fields": "",
-                  "reducer": [
-                    "sum"
-                  ],
-                  "show": false
-                },
-                "showHeader": true,
-                "sortBy": [
-                  {
-                    "desc": true,
-                    "displayName": "Operation"
-                  }
-                ]
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "custom": {
-                    "align": "auto",
-                    "cellOptions": {
-                      "type": "auto"
-                    },
-                    "inspect": false
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Duration (p99)"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "ms"
-                      }
-                    ]
-                  },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Rate"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "reqps"
-                      }
-                    ]
-                  },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Error"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "percentunit"
-                      }
-                    ]
-                  }
-                ]
               }
             }
           }
@@ -1503,31 +1272,11 @@
                               "$service_name"
                             ],
                             "valueType": "string"
-                          },
-                          {
-                            "id": "6997e808",
-                            "operator": "=",
-                            "scope": "resource",
-                            "tag": "deployment.environment.name",
-                            "value": [
-                              "$deployment_environment_name"
-                            ],
-                            "valueType": "string"
-                          },
-                          {
-                            "id": "e9f0e855",
-                            "operator": "=",
-                            "scope": "resource",
-                            "tag": "service.namespace",
-                            "value": [
-                              "$service_namespace"
-                            ],
-                            "valueType": "string"
                           }
                         ],
                         "limit": 20,
                         "metricsQueryType": "range",
-                        "query": "{resource.service.name=\"$service_name\" && resource.service.namespace=\"$service_namespace\"} | select(status)",
+                        "query": "{resource.service.name=\"$service_name\"} | select(status)",
                         "queryType": "traceql",
                         "tableType": "spans"
                       }
@@ -1652,819 +1401,12 @@
           }
         }
       },
-      "panel-32": {
-        "kind": "Panel",
-        "spec": {
-          "id": 32,
-          "title": "Outbound gRPC Services",
-          "description": "gRPC calls made by the service based on the `rpc.client.request.duration` metric.\n\nSpecific to gRPC due to the usage of the `grpc.status.code` attribute to identify errors.\n\nCalls broken down by `server.address`, `rpc.service`, and `rpc.method`.\n\nSee https://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#rpc-client\n\n",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "disableTextWrap": false,
-                        "editorMode": "code",
-                        "expr": "\n        sum by (outbound_service) (\n            label_join(\n                rate(rpc_client_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"outbound_service\",\n                \"/\",\n                \"server_address\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n    ",
-                        "fullMetaSearch": false,
-                        "includeNullMetadata": true,
-                        "legendFormat": "__auto",
-                        "range": true,
-                        "useBackend": false
-                      }
-                    },
-                    "refId": "RPS",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "(\n        sum by (outbound_service) (\n            label_join(\n                rate(rpc_client_duration_milliseconds_count{job=~\"$service_namespace/$service_name\", http_response_status_code=~\"5..\"}[$__rate_interval]),\n                \"outbound_service\",\n                \"/\",\n                \"server_address\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n     / \n        sum by (outbound_service) (\n            label_join(\n                rate(rpc_client_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"outbound_service\",\n                \"/\",\n                \"server_address\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n    ) or (0 * \n        sum by (outbound_service) (\n            label_join(\n                rate(rpc_client_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval]),\n                \"outbound_service\",\n                \"/\",\n                \"server_address\",\n                \"rpc_service\",\n                \"rpc_method\"\n            )\n        )\n    )",
-                        "instant": false,
-                        "legendFormat": "__auto",
-                        "range": true
-                      }
-                    },
-                    "refId": "ERR_PCT",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "\nhistogram_quantile(\n    0.99,\n    sum by (le, outbound_service) (\n        label_join(\n        rate(rpc_client_duration_milliseconds_bucket{job=~\"$service_namespace/$service_name\"}[5m]),\n        \"outbound_service\",\n        \"/\",\n        \"server_address\",\n        \"rpc_service\",\n        \"rpc_method\"\n        )\n    )\n)",
-                        "instant": false,
-                        "legendFormat": "__auto",
-                        "range": true
-                      }
-                    },
-                    "refId": "DURATION",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [
-                {
-                  "kind": "Transformation",
-                  "group": "timeSeriesTable",
-                  "spec": {
-                    "options": {
-                      "Duration": {
-                        "timeField": "Time"
-                      },
-                      "ERR_PCT": {
-                        "timeField": "Time"
-                      },
-                      "RPS": {
-                        "timeField": "Time"
-                      }
-                    }
-                  }
-                },
-                {
-                  "kind": "Transformation",
-                  "group": "joinByField",
-                  "spec": {
-                    "options": {
-                      "byField": "outbound_service",
-                      "mode": "outer"
-                    }
-                  }
-                },
-                {
-                  "kind": "Transformation",
-                  "group": "organize",
-                  "spec": {
-                    "options": {
-                      "excludeByName": {},
-                      "includeByName": {},
-                      "indexByName": {
-                        "Trend #DURATION": 1,
-                        "Trend #ERR_PCT": 2,
-                        "Trend #RPS": 3,
-                        "outbound_service": 0
-                      },
-                      "renameByName": {
-                        "Trend #DURATION": "Duration (P99)",
-                        "Trend #Duration": "Duration (p99)",
-                        "Trend #ERR_PCT": "Error",
-                        "Trend #RPS": "Rate",
-                        "operation": "Operation",
-                        "outbound_service": "Service Method"
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "table",
-            "version": "11.6.0-82949",
-            "spec": {
-              "options": {
-                "cellHeight": "sm",
-                "footer": {
-                  "countRows": false,
-                  "fields": "",
-                  "reducer": [
-                    "sum"
-                  ],
-                  "show": false
-                },
-                "showHeader": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "custom": {
-                    "align": "auto",
-                    "cellOptions": {
-                      "type": "auto"
-                    },
-                    "inspect": false
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Duration (P99)"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "ms"
-                      }
-                    ]
-                  },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Rate"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "reqps"
-                      }
-                    ]
-                  },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Error"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "percentunit"
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "panel-33": {
-        "kind": "Panel",
-        "spec": {
-          "id": 33,
-          "title": "Duration",
-          "description": "gRPC Endpoints aggregation, `rpc.server.duration` metric.\n\nSee https://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#metric-rpcserverduration",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "disableTextWrap": false,
-                        "editorMode": "code",
-                        "expr": "histogram_quantile(0.99, sum by(le, job) (rate(rpc_server_duration_milliseconds_bucket{job=\"$service_namespace/$service_name\"}[$__rate_interval])))",
-                        "fullMetaSearch": false,
-                        "includeNullMetadata": true,
-                        "legendFormat": "P99",
-                        "range": true,
-                        "useBackend": false
-                      }
-                    },
-                    "refId": "P99",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "disableTextWrap": false,
-                        "editorMode": "builder",
-                        "expr": "histogram_quantile(0.9, sum by(le, job) (rate(rpc_server_duration_milliseconds_bucket{job=\"$service_namespace/$service_name\"}[$__rate_interval])))",
-                        "fullMetaSearch": false,
-                        "includeNullMetadata": true,
-                        "legendFormat": "P90",
-                        "range": true,
-                        "useBackend": false
-                      }
-                    },
-                    "refId": "P90",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "disableTextWrap": false,
-                        "editorMode": "builder",
-                        "expr": "avg by(job) (rate(rpc_server_duration_milliseconds_sum{job=\"$service_namespace/$service_name\"}[$__rate_interval])) / avg by(job) (rate(rpc_server_duration_milliseconds_count{job=\"$service_namespace/$service_name\"}[$__rate_interval]))",
-                        "fullMetaSearch": false,
-                        "includeNullMetadata": true,
-                        "legendFormat": "AVG",
-                        "range": true,
-                        "useBackend": false
-                      }
-                    },
-                    "refId": "AVG",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "11.6.0-82949",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "ms",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "axisSoftMin": 0,
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 0,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 1,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "log": 10,
-                      "type": "log"
-                    },
-                    "showPoints": "auto",
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  }
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-34": {
-        "kind": "Panel",
-        "spec": {
-          "id": 34,
-          "title": "Error",
-          "description": "gRPC endpoints aggregation based on the `rpc.server.duration` metric.\n\nErrors are identified by `rpc.grpc.status_code != 0` which make the panel specific to the gRPC protocol.\n\nSee https://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#metric-rpcserverdurationInbound ",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "disableTextWrap": false,
-                        "editorMode": "code",
-                        "expr": "(sum without (rpc_grpc_status_code, instance) (rate(rpc_server_duration_milliseconds_count{job=\"$service_namespace/$service_name\", rpc_grpc_status_code!=\"0\"}[$__rate_interval])) * 100) / sum without (rpc_grpc_status_code, instance) (rate(rpc_server_duration_milliseconds_count{job=\"$service_namespace/$service_name\"}[$__rate_interval]))",
-                        "fullMetaSearch": false,
-                        "includeNullMetadata": true,
-                        "instant": false,
-                        "legendFormat": "Error",
-                        "range": true,
-                        "useBackend": false
-                      }
-                    },
-                    "refId": "ERR",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "11.6.0-82949",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "percent",
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 0,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 1,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  }
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-35": {
-        "kind": "Panel",
-        "spec": {
-          "id": 35,
-          "title": "Request Rate",
-          "description": "gRPC endpoints aggregation on the  `rpc.server.duration` metric.\n\nSee https://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#metric-rpcserverduration",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "(sum(rate(rpc_server_duration_milliseconds_count{job=~\"$service_namespace/$service_name\"}[$__rate_interval])) by (job)) * $__interval_ms / 1000",
-                        "legendFormat": "Requests",
-                        "range": true
-                      }
-                    },
-                    "refId": "RequestRate",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "11.6.0-82949",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "reqps",
-                  "min": 0,
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "axisSoftMin": 0,
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 0,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 1,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "log": 10,
-                      "type": "log"
-                    },
-                    "showPoints": "auto",
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  }
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-38": {
-        "kind": "Panel",
-        "spec": {
-          "id": 38,
-          "title": "JVM",
-          "description": "For JVM based services like Java or Kotlin, the JVM metrics.\n\nSee https://opentelemetry.io/docs/specs/semconv/runtime/jvm-metrics/",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "sum by(instance) (jvm_cpu_recent_utilization_ratio{job=\"$service_namespace/$service_name\"})",
-                        "legendFormat": "__auto",
-                        "range": true
-                      }
-                    },
-                    "refId": "CPU_PCT",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${prometheus_datasource}"
-                      },
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "sum by(instance) (rate(jvm_gc_duration_seconds_sum{job=\"$service_namespace/$service_name\"}[$__rate_interval]))",
-                        "instant": false,
-                        "legendFormat": "__auto",
-                        "range": true
-                      }
-                    },
-                    "refId": "GC_PCT",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [
-                {
-                  "kind": "Transformation",
-                  "group": "timeSeriesTable",
-                  "spec": {
-                    "options": {
-                      "A": {
-                        "timeField": "Time"
-                      },
-                      "CPU_PCT": {
-                        "timeField": "Time"
-                      },
-                      "GC_PCT": {
-                        "timeField": "Time"
-                      }
-                    }
-                  }
-                },
-                {
-                  "kind": "Transformation",
-                  "group": "joinByField",
-                  "spec": {
-                    "options": {
-                      "byField": "instance",
-                      "mode": "outer"
-                    }
-                  }
-                },
-                {
-                  "kind": "Transformation",
-                  "group": "organize",
-                  "spec": {
-                    "options": {
-                      "excludeByName": {},
-                      "includeByName": {},
-                      "indexByName": {},
-                      "renameByName": {
-                        "Trend #CPU_PCT": "CPU",
-                        "Trend #GC_PCT": "Garbage Collector Time",
-                        "instance": "Instance"
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "table",
-            "version": "11.6.0-82874",
-            "spec": {
-              "options": {
-                "cellHeight": "sm",
-                "footer": {
-                  "countRows": false,
-                  "fields": "",
-                  "reducer": [
-                    "sum"
-                  ],
-                  "show": false
-                },
-                "showHeader": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "custom": {
-                    "align": "auto",
-                    "cellOptions": {
-                      "type": "auto"
-                    },
-                    "inspect": false
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Trend #CPU_PCT"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "percentunit"
-                      }
-                    ]
-                  },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Trend #GC_PCT"
-                    },
-                    "properties": [
-                      {
-                        "id": "unit",
-                        "value": "percentunit"
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
       "panel-39": {
         "kind": "Panel",
         "spec": {
           "id": 39,
-          "title": "Latest metrics received",
-          "description": "Shows the timestamp of the latest metrics received in the past 24h.",
+          "title": "Latest span metrics",
+          "description": "Shows the time of the latest span metrics for the service in the past 24h.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -2482,7 +1424,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "timestamp(sum by (job) (target_info{job=~\"$service_namespace/$service_name\"}) or absent{})\n",
+                        "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"$service_name\"}[5m]))",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -2552,7 +1494,7 @@
         "spec": {
           "id": 40,
           "title": "Latest logs received",
-          "description": "Shows the timestamp of the latest logs received in the past 24h.",
+          "description": "Shows the time of the latest log line from the service's systemd unit (`grafana-<service>.service` or `<service>.service`) in the past 24h.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -2571,7 +1513,7 @@
                       "spec": {
                         "direction": "backward",
                         "editorMode": "code",
-                        "expr": "sum(count_over_time({service_name=\"$service_name\", service_namespace=\"$service_namespace\"} [5m]))",
+                        "expr": "sum(count_over_time({unit=~\"(grafana-)?$service_name[.]service\"} [5m]))",
                         "queryType": "range"
                       }
                     },
@@ -2661,16 +1603,6 @@
                       "spec": {
                         "filters": [
                           {
-                            "id": "0344fb49",
-                            "operator": "=",
-                            "scope": "resource",
-                            "tag": "service.namespace",
-                            "value": [
-                              "$service_namespace"
-                            ],
-                            "valueType": "string"
-                          },
-                          {
                             "id": "service-name",
                             "operator": "=",
                             "scope": "resource",
@@ -2683,7 +1615,7 @@
                         ],
                         "limit": 20,
                         "metricsQueryType": "range",
-                        "query": "{resource.service.namespace=\"$service_namespace\" && resource.service.name=\"$service_name\"} | count_over_time()",
+                        "query": "{resource.service.name=\"$service_name\"} | count_over_time()",
                         "queryType": "traceql",
                         "tableType": "traces"
                       }
@@ -2825,7 +1757,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "title": "Server HTTP RED Metrics",
+              "title": "Inbound RED Metrics",
               "collapse": false,
               "layout": {
                 "kind": "GridLayout",
@@ -2878,59 +1810,6 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "title": "Server gRPC RED Metrics",
-              "collapse": true,
-              "layout": {
-                "kind": "GridLayout",
-                "spec": {
-                  "items": [
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 0,
-                        "y": 0,
-                        "width": 6,
-                        "height": 8,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-33"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 6,
-                        "y": 0,
-                        "width": 6,
-                        "height": 8,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-34"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 12,
-                        "y": 0,
-                        "width": 5,
-                        "height": 8,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-35"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "kind": "RowsLayoutRow",
-            "spec": {
               "title": "Inbound Operations",
               "collapse": true,
               "layout": {
@@ -2942,24 +1821,11 @@
                       "spec": {
                         "x": 0,
                         "y": 0,
-                        "width": 12,
+                        "width": 24,
                         "height": 5,
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-21"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 12,
-                        "y": 0,
-                        "width": 12,
-                        "height": 5,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-27"
                         }
                       }
                     }
@@ -2971,7 +1837,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "title": "Outbound Services and Databases",
+              "title": "Outbound Calls and Downstream Services",
               "collapse": true,
               "layout": {
                 "kind": "GridLayout",
@@ -3000,19 +1866,6 @@
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-24"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 0,
-                        "y": 6,
-                        "width": 12,
-                        "height": 6,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-32"
                         }
                       }
                     }
@@ -3074,33 +1927,6 @@
                 }
               }
             }
-          },
-          {
-            "kind": "RowsLayoutRow",
-            "spec": {
-              "title": "Runtime",
-              "collapse": false,
-              "layout": {
-                "kind": "GridLayout",
-                "spec": {
-                  "items": [
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 0,
-                        "y": 0,
-                        "width": 12,
-                        "height": 5,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-38"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
           }
         ]
       }
@@ -3116,7 +1942,7 @@
       "timezone": "",
       "from": "now-30m",
       "to": "now",
-      "autoRefresh": "5s",
+      "autoRefresh": "1m",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -3191,41 +2017,6 @@
           "label": "Logs",
           "hide": "dontHide",
           "skipUrlSync": false,
-          "allowCustomValue": false
-        }
-      },
-      {
-        "kind": "QueryVariable",
-        "spec": {
-          "name": "service_namespace",
-          "current": {
-            "text": "",
-            "value": ""
-          },
-          "label": "service.namespace",
-          "hide": "dontHide",
-          "refresh": "onTimeRangeChanged",
-          "skipUrlSync": false,
-          "description": "Values instrospected from traces.",
-          "query": {
-            "kind": "DataQuery",
-            "group": "tempo",
-            "version": "v0",
-            "datasource": {
-              "name": "fefqysfowka2oe"
-            },
-            "spec": {
-              "label": "service.namespace",
-              "refId": "TempoDatasourceVariableQueryEditor-VariableQuery",
-              "type": 1
-            }
-          },
-          "regex": "",
-          "sort": "alphabeticalAsc",
-          "definition": "",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
           "allowCustomValue": false
         }
       },
