@@ -1,0 +1,2 @@
+Proof for backlog item 340: CI must refuse this file, and the pull request
+that adds it must not merge.
