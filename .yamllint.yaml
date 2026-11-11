@@ -1,0 +1,31 @@
+---
+# Catches mistakes, not style: trailing whitespace, a missing final newline,
+# stray blank lines and duplicate keys stay on; line length, indentation and
+# document-start are off.
+extends: default
+
+# The local virtualenv the README creates is not ours to lint.
+ignore-from-file: .gitignore
+
+rules:
+  line-length: disable
+  indentation: disable
+  braces: disable
+  brackets: disable
+  comments: disable
+  comments-indentation: disable
+  document-start: disable
+  colons: disable
+
+  trailing-spaces: enable
+  new-line-at-end-of-file: enable
+  key-duplicates: enable
+  empty-lines:
+    max: 1
+    max-start: 0
+    max-end: 0
+
+  # GitHub Actions requires an 'on:' key, which YAML 1.1 reads as a boolean.
+  truthy:
+    check-keys: false
+    allowed-values: ['true', 'false', 'yes', 'no']
