@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: "17 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  GITLEAKS_VERSION: 8.30.1
+  GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Assert the clone is complete
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse --is-shallow-repository)" = "false"
+          echo "commits in history: $(git rev-list --count HEAD)"
+
+      - name: Install gitleaks
+        run: |
+          set -euo pipefail
+          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl --proto "=https" --tlsv1.2 -sSfL -o "${RUNNER_TEMP}/${tarball}" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${tarball}"
+          echo "${GITLEAKS_SHA256}  ${RUNNER_TEMP}/${tarball}" | sha256sum -c -
+          tar -xzf "${RUNNER_TEMP}/${tarball}" -C "${RUNNER_TEMP}" gitleaks
+          "${RUNNER_TEMP}/gitleaks" version
+
+      - name: Run gitleaks over the history of the checked-out commit
+        run: '"${RUNNER_TEMP}/gitleaks" git --no-banner --redact --verbose --log-opts="HEAD" .'
+
+      - name: Dashboard invariants
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 --version
+          python3 scripts/check-dashboards.py
+
+      - name: Install the Python tools
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -m venv "${RUNNER_TEMP}/venv"
+          "${RUNNER_TEMP}/venv/bin/pip" install --quiet --require-virtualenv -r ci/requirements.txt
+          echo "${RUNNER_TEMP}/venv/bin" >> "${GITHUB_PATH}"
+
+      - name: yamllint
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          yamllint --version
+          yamllint --strict .
+
+      # actionlint turns its shellcheck checks off when shellcheck is not on PATH.
+      - name: Run actionlint and the remaining pre-commit hooks
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          command -v shellcheck
+          shellcheck --version
+          pre-commit --version
+          pre-commit run --all-files --show-diff-on-failure
+
+  tool-drift:
+    name: Tool drift
+    if: github.event_name == 'schedule'
+    permissions:
+      contents: read
+      issues: write
+    uses: cdf-eagles/.github/.github/workflows/tool-drift.yaml@6f234c67ef07148871d620fa023a8ddfc5d5a31c  # v1.1.0
