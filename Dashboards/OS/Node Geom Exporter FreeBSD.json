@@ -4500,10 +4500,10 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "gstat_read_operations_per_second{instance=\"$node\", name=~\"$gstat_geom\"}",
+                        "expr": "rate(geom_operations{instance=~\"$node\", device=~\"$gstat_geom\", method=\"read\"}[$__rate_interval])",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} read operations/sec ({{ instance }})",
+                        "legendFormat": "{{ device }} read operations/sec ({{ instance }})",
                         "range": true
                       }
                     },
@@ -4523,9 +4523,9 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "gstat_write_operations_per_second{instance=\"$node\", name=~\"$gstat_geom\"}",
+                        "expr": "rate(geom_operations{instance=~\"$node\", device=~\"$gstat_geom\", method=\"write\"}[$__rate_interval])",
                         "instant": false,
-                        "legendFormat": "{{ name }} write operations/sec ({{ instance }})",
+                        "legendFormat": "{{ device }} write operations/sec ({{ instance }})",
                         "range": true
                       }
                     },
@@ -4652,10 +4652,10 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "gstat_percent_busy{instance=~\"$node\", name=~\"$gstat_geom\"}",
+                        "expr": "rate(geom_busy_time{instance=~\"$node\", device=~\"$gstat_geom\"}[$__rate_interval]) * 100",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} % busy ({{ instance }})",
+                        "legendFormat": "{{ device }} % busy ({{ instance }})",
                         "range": true
                       }
                     },
@@ -6955,13 +6955,13 @@
             "version": "v0",
             "spec": {
               "qryType": 1,
-              "query": "label_values(gstat_percent_busy,name)",
+              "query": "label_values(geom_busy_time,device)",
               "refId": "PrometheusVariableQueryEditor-VariableQuery"
             }
           },
           "regex": "",
           "sort": "disabled",
-          "definition": "label_values(gstat_percent_busy,name)",
+          "definition": "label_values(geom_busy_time,device)",
           "options": [],
           "multi": true,
           "includeAll": true,

@@ -46,7 +46,7 @@
       }
     ],
     "cursorSync": "Crosshair",
-    "description": "Grafana dashboard for gstat_exporter from https://github.com/tykling/gstat_exporter",
+    "description": "GEOM disk statistics from geom-exporter (net-mgmt/geom-exporter), which replaced gstat_exporter; its values are cumulative, so the panels take rate() of them.",
     "editable": true,
     "elements": {
       "panel-10": {
@@ -71,10 +71,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_percent_busy{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_busy_time{instance=~\"$instance\", device=~\"$geom\"}[$__rate_interval]) * 100",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} % busy ({{ instance }})"
+                        "legendFormat": "{{ device }} % busy ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -188,7 +188,7 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_percent_busy{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_busy_time{instance=~\"$instance\", device=~\"$geom\"}[$__rate_interval]) * 100",
                         "format": "table",
                         "instant": true,
                         "intervalFactor": 1,
@@ -380,10 +380,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_miliseconds_per_read{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_duration{instance=~\"$instance\", device=~\"$geom\", method=\"read\"}[$__rate_interval]) / rate(geom_operations{instance=~\"$instance\", device=~\"$geom\", method=\"read\"}[$__rate_interval]) * 1000",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} read latency ({{ instance }})"
+                        "legendFormat": "{{ device }} read latency ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -495,10 +495,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_read_operations_per_second{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_operations{instance=~\"$instance\", device=~\"$geom\", method=\"read\"}[$__rate_interval])",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} read operations/sec ({{ instance }})"
+                        "legendFormat": "{{ device }} read operations/sec ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -610,10 +610,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_queue_depth{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "geom_queue_length{instance=~\"$instance\", device=~\"$geom\"}",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} queue depth ({{ instance }})"
+                        "legendFormat": "{{ device }} queue depth ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -725,10 +725,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_write_kilobytes_per_second{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_bytes{instance=~\"$instance\", device=~\"$geom\", method=\"write\"}[$__rate_interval]) / 1024",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} write/sec ({{ instance }})"
+                        "legendFormat": "{{ device }} write/sec ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -840,10 +840,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_delete_kilobytes_per_second{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_bytes{instance=~\"$instance\", device=~\"$geom\", method=\"free\"}[$__rate_interval]) / 1024",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} delete/sec ({{ instance }})"
+                        "legendFormat": "{{ device }} delete/sec ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -955,10 +955,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_read_kilobytes_per_second{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_bytes{instance=~\"$instance\", device=~\"$geom\", method=\"read\"}[$__rate_interval]) / 1024",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} read/sec ({{ instance }})"
+                        "legendFormat": "{{ device }} read/sec ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -1070,10 +1070,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_miliseconds_per_delete{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_duration{instance=~\"$instance\", device=~\"$geom\", method=\"free\"}[$__rate_interval]) / rate(geom_operations{instance=~\"$instance\", device=~\"$geom\", method=\"free\"}[$__rate_interval]) * 1000",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} delete latency ({{ instance }})"
+                        "legendFormat": "{{ device }} delete latency ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -1185,10 +1185,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_miliseconds_per_write{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_duration{instance=~\"$instance\", device=~\"$geom\", method=\"write\"}[$__rate_interval]) / rate(geom_operations{instance=~\"$instance\", device=~\"$geom\", method=\"write\"}[$__rate_interval]) * 1000",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} write latency ({{ instance }})"
+                        "legendFormat": "{{ device }} write latency ({{ instance }})"
                       }
                     },
                     "refId": "A",
@@ -1300,10 +1300,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_write_operations_per_second{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_operations{instance=~\"$instance\", device=~\"$geom\", method=\"write\"}[$__rate_interval])",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} write operations/sec ({{ instance }})"
+                        "legendFormat": "{{ device }} write operations/sec ({{ instance }})"
                       }
                     },
                     "refId": "B",
@@ -1415,10 +1415,10 @@
                         "name": "cei7lwvco16o0b"
                       },
                       "spec": {
-                        "expr": "gstat_delete_operations_per_second{instance=~\"$instance\", name=~\"$geom\", mediasize=~\"$size\", rotationrate=~\"$rpm\", sectorsize=~\"$sectorsize\"}",
+                        "expr": "rate(geom_operations{instance=~\"$instance\", device=~\"$geom\", method=\"free\"}[$__rate_interval])",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{ name }} delete operations/sec ({{ instance }})"
+                        "legendFormat": "{{ device }} delete operations/sec ({{ instance }})"
                       }
                     },
                     "refId": "B",
@@ -1807,12 +1807,12 @@
               "name": "cei7lwvco16o0b"
             },
             "spec": {
-              "__legacyStringValue": "label_values(gstat_up, instance)"
+              "__legacyStringValue": "label_values(geom_busy_time, instance)"
             }
           },
           "regex": "",
           "sort": "disabled",
-          "definition": "label_values(gstat_up, instance)",
+          "definition": "label_values(geom_busy_time, instance)",
           "options": [],
           "multi": true,
           "includeAll": true,
@@ -1838,105 +1838,12 @@
               "name": "cei7lwvco16o0b"
             },
             "spec": {
-              "__legacyStringValue": "label_values(gstat_percent_busy, name)"
+              "__legacyStringValue": "label_values(geom_busy_time{instance=~\"$instance\"}, device)"
             }
           },
           "regex": "",
           "sort": "disabled",
-          "definition": "label_values(gstat_percent_busy, name)",
-          "options": [],
-          "multi": true,
-          "includeAll": true,
-          "allowCustomValue": true
-        }
-      },
-      {
-        "kind": "QueryVariable",
-        "spec": {
-          "name": "size",
-          "current": {
-            "text": "All",
-            "value": "$__all"
-          },
-          "hide": "dontHide",
-          "refresh": "onTimeRangeChanged",
-          "skipUrlSync": false,
-          "query": {
-            "kind": "DataQuery",
-            "group": "prometheus",
-            "version": "v0",
-            "datasource": {
-              "name": "cei7lwvco16o0b"
-            },
-            "spec": {
-              "__legacyStringValue": "label_values(gstat_percent_busy, mediasize)"
-            }
-          },
-          "regex": "",
-          "sort": "disabled",
-          "definition": "label_values(gstat_percent_busy, mediasize)",
-          "options": [],
-          "multi": true,
-          "includeAll": true,
-          "allowCustomValue": true
-        }
-      },
-      {
-        "kind": "QueryVariable",
-        "spec": {
-          "name": "rpm",
-          "current": {
-            "text": "All",
-            "value": "$__all"
-          },
-          "hide": "dontHide",
-          "refresh": "onTimeRangeChanged",
-          "skipUrlSync": false,
-          "query": {
-            "kind": "DataQuery",
-            "group": "prometheus",
-            "version": "v0",
-            "datasource": {
-              "name": "cei7lwvco16o0b"
-            },
-            "spec": {
-              "__legacyStringValue": "label_values(gstat_percent_busy, rotationrate)"
-            }
-          },
-          "regex": "",
-          "sort": "disabled",
-          "definition": "label_values(gstat_percent_busy, rotationrate)",
-          "options": [],
-          "multi": true,
-          "includeAll": true,
-          "allowCustomValue": true
-        }
-      },
-      {
-        "kind": "QueryVariable",
-        "spec": {
-          "name": "sectorsize",
-          "current": {
-            "text": "All",
-            "value": "$__all"
-          },
-          "hide": "dontHide",
-          "refresh": "onTimeRangeChanged",
-          "skipUrlSync": false,
-          "query": {
-            "kind": "DataQuery",
-            "group": "prometheus",
-            "version": "v0",
-            "datasource": {
-              "name": "cei7lwvco16o0b"
-            },
-            "spec": {
-              "__legacyStringValue": "label_values(gstat_percent_busy, sectorsize)"
-            }
-          },
-          "regex": "",
-          "sort": "disabled",
-          "definition": "label_values(gstat_percent_busy, sectorsize)",
+          "definition": "label_values(geom_busy_time{instance=~\"$instance\"}, device)",
           "options": [],
           "multi": true,
           "includeAll": true,
